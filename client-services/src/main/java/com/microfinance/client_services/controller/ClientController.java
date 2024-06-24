@@ -1,10 +1,7 @@
 package com.microfinance.client_services.controller;
 
-import com.microfinance.client_services.models.ClientCollecte;
 import com.microfinance.client_services.services.ClientServices;
 import com.microfinance.client_services.utils.APIResponse;
-import com.microfinance.client_services.utils.CrudOperationException;
-import com.microfinance.client_services.utils.Trame;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
