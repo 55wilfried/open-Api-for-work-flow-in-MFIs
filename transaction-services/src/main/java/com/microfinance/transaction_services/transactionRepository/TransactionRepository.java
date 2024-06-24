@@ -28,7 +28,8 @@ public interface TransactionRepository extends JpaRepository<OperationCollecte,S
             "AND (:numcli is null or e.numcli = :numcli)")
     List<OperationCollecte> findEntitiesByParamsAndDateRange(Date startDate, Date endDate, String numCol, String codage, String numcli);
 
-    @Query("SELECT MAX(o.num) FROM OperationCollecte o WHERE LOWER(o.numcol) = LOWER(:collector)")
-    String findMaxOperationNumberByCollector(@Param("collector") String collector);
+    @Query("SELECT MAX(o.num) FROM OperationCollecte o WHERE LOWER(o.numCol) = LOWER(:numCol)")
+    String findMaxNumByCollector(@Param("numCol") String collector);
+
 
 }

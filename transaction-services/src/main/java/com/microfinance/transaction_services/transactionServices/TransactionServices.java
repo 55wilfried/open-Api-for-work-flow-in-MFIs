@@ -27,7 +27,7 @@ public Helpers helpers;
             String num;
             String finalNum;
             OperationCollecte loginRequest = Trame.getRequestData(operationCollecte, OperationCollecte.class);
-          String  lastNumop = transactionRepository.findMaxOperationNumberByCollector(loginRequest.getNumCol());
+          String  lastNumop = transactionRepository.findMaxNumByCollector(loginRequest.getNumCol());
             if (lastNumop != null){
                  num = lastNumop.substring(7);
             }else{
