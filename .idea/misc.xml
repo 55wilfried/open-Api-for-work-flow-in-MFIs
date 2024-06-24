@@ -15,6 +15,10 @@
         <option value="$PROJECT_DIR$/loans-services/pom.xml" />
         <option value="$PROJECT_DIR$/transaction-services/pom.xml" />
         <option value="$PROJECT_DIR$/users-services/pom.xml" />
+        <option value="$PROJECT_DIR$/client-services/pom.xml" />
+        <option value="$PROJECT_DIR$/registry /pom.xml" />
+        <option value="$PROJECT_DIR$/reporting-services/pom.xml" />
+        <option value="$PROJECT_DIR$/authentification-services/pom.xml" />
       </list>
     </option>
   </component>

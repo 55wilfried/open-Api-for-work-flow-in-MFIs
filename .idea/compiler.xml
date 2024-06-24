@@ -7,17 +7,15 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="api-gateway" />
+        <module name="reporting-services" />
         <module name="users-services" />
+        <module name="authentification-services" />
         <module name="transaction-services" />
         <module name="loans-services" />
+        <module name="client-services" />
+        <module name="api-gateway" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="authentification-services" target="17" />
-      <module name="client-services" target="17" />
-      <module name="reporting-services" target="17" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
@@ -25,6 +23,7 @@
       <module name="authentification-services" options="-parameters" />
       <module name="client-services" options="-parameters" />
       <module name="loans-services" options="-parameters" />
+      <module name="registry" options="-parameters" />
       <module name="reporting-services" options="-parameters" />
       <module name="transaction-services" options="-parameters" />
       <module name="users-services" options="-parameters" />
