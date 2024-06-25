@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: authentication-service
+          uri: lb://authentication-services
+          predicates:
+            - Path=/Auth/**
+          filters:
+            - StripPrefix=1
+
+        - id: client-service
+          uri: lb://client-services
+          predicates:
+            - Path=/ClientCollecte/**
+          filters:
+            - StripPrefix=1
+
+        - id: loans-service
+          uri: lb://loans-services
+          predicates:
+            - Path=/loan/**
+          filters:
+            - StripPrefix=1
+
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+            allowedHeaders:
+              - "*"
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8381/eureka/
+  instance:
+    preferIpAddress: true
+
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          gateway: DEBUG
+
+server:
+  port: 8080

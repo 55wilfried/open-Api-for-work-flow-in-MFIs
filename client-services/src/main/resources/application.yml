@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: client-services
+  datasource:
+    url: jdbc:sqlserver://localhost:1433;databaseName=banque;encrypt=true;trustServerCertificate=true;
+    username: SA
+    password: SA@1T3CH
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        physical_naming_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    hibernate:
+      ddl-auto: update
+
+server:
+  port: 8082
+  servlet:
+    context-path: /app
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8381/eureka/
+
+logging:
+  level:
+    org.springframework.web: DEBUG
