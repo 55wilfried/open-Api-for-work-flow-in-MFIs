@@ -1,15 +1,12 @@
 package com.microfinance.transaction_services.transactionController;
 
-import com.microfinance.transaction_services.models.OperationCollecte;
-import com.microfinance.transaction_services.models.RequestTransactionByParams;
 import com.microfinance.transaction_services.transactionServices.TransactionServices;
 import com.microfinance.transaction_services.utils.APIResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-@RequestMapping("/transaction")
+@RequestMapping("/transactions")
 @RestController
 @CrossOrigin(origins= {"*"}, maxAge = 3600, allowCredentials = "false")
 public class TransactionController {

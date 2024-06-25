@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  eureka-server:
+    image: eurekaserver
+    build:
+      context: ./register
+    ports:
+      - "8761:8761"
+    networks:
+      - microservices-network
+
+  api-gateway:
+    image: apigateway
+    build:
+      context: ./gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eureka-server
+    networks:
+      - microservices-network
+
+  authentication-services:
+    image: authenticationservices
+    build:
+      context: ./authentication-services
+    depends_on:
+      - eureka-server
+    networks:
+      - microservices-network
+
+  client-services:
+    image: clientservices
+    build:
+      context: ./client-services
+    depends_on:
+      - eureka-server
+    networks:
+      - microservices-network
+
+  loans-services:
+    image: loansservices
+    build:
+      context: ./loans-services
+    depends_on:
+      - eureka-server
+    networks:
+      - microservices-network
+
+  reporting-services:
+    image: reportingservices
+    build:
+      context: ./reporting-services
+    depends_on:
+      - eureka-server
+    networks:
+      - microservices-network
+
+  transaction-services:
+    image: transactionservices
+    build:
+      context: ./transaction-services
+    depends_on:
+      - eureka-server
+    networks:
+      - microservices-network
+
+  users-services:
+    image: usersservices
+    build:
+      context: ./users-services
+    depends_on:
+      - eureka-server
+    networks:
+      - microservices-network
+
+networks:
+  microservices-network:
+    driver: bridge

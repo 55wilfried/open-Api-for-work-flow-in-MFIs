@@ -1,55 +1,54 @@
+server:
+  port: 8080
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    preferIpAddress: true
+
 spring:
   application:
     name: api-gateway
   cloud:
     gateway:
       routes:
-        - id: authentication-service
+        - id: authentication-services
           uri: lb://authentication-services
           predicates:
-            - Path=/Auth/**
-          filters:
-            - StripPrefix=1
+            - Path=/auth/**
 
-        - id: client-service
+        - id: client-services
           uri: lb://client-services
           predicates:
-            - Path=/ClientCollecte/**
-          filters:
-            - StripPrefix=1
+            - Path=/clients/**
 
-        - id: loans-service
+        - id: loans-services
           uri: lb://loans-services
           predicates:
-            - Path=/loan/**
-          filters:
-            - StripPrefix=1
+            - Path=/loans/**
 
-      globalcors:
-        corsConfigurations:
-          '[/**]':
-            allowedOrigins: "*"
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-            allowedHeaders:
-              - "*"
+        - id: reporting-services
+          uri: lb://reporting-services
+          predicates:
+            - Path=/reports/**
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8381/eureka/
-  instance:
-    preferIpAddress: true
+        - id: transaction-services
+          uri: lb://transaction-services
+          predicates:
+            - Path=/transactions/**
+
+        - id: users-services
+          uri: lb://users-services
+          predicates:
+            - Path=/users/**
+
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
 
 logging:
   level:
-    org:
-      springframework:
-        cloud:
-          gateway: DEBUG
-
-server:
-  port: 8080
+    org.springframework.cloud.gateway: DEBUG

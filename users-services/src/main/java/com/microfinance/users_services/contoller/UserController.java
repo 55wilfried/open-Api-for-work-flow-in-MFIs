@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Users")
+@RequestMapping("/users")
 @CrossOrigin(origins= {"*"}, maxAge = 3600, allowCredentials = "false")
 public class UserController {
     @Autowired
