@@ -1,6 +1,6 @@
 package com.microfinance.users_services;
 
-import com.microfinance.users_services.userServices.UserServices;
+import com.microfinance.users_services.service.UserServices;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

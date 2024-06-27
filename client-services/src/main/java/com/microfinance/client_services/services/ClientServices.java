@@ -1,7 +1,7 @@
 package com.microfinance.client_services.services;
 
-import com.microfinance.client_services.models.ClientCollecte;
 import com.microfinance.client_services.clientRepository.ClientRepository;
+import com.microfinance.client_services.models.ClientCollecte;
 import com.microfinance.client_services.utils.APIResponse;
 import com.microfinance.client_services.utils.CrudOperationException;
 import com.microfinance.client_services.utils.Trame;
@@ -27,6 +27,7 @@ public class ClientServices {
             if(clientCollectes != null){
                 resp.setData(clientCollectes);
                 resp.setStatus(Trame.ResponseCode.SUCCESS);
+                resp.setMessage("SUCCESS");
                 return  resp;
             }else{
                 throw new CrudOperationException("The List is Empty", Trame.ResponseCode.NOT_FOUND);
@@ -45,6 +46,7 @@ public class ClientServices {
             if(clientCollectes != null){
                 resp.setData(clientCollectes);
                 resp.setStatus(Trame.ResponseCode.SUCCESS);
+                resp.setMessage("SUCCESS");
                 return  resp;
             }else{
                 throw new CrudOperationException("The List is Empty", Trame.ResponseCode.NOT_FOUND);
@@ -66,6 +68,7 @@ public class ClientServices {
             if(clientCollectes != null){
                 resp.setData(clientCollectes);
                 resp.setStatus(Trame.ResponseCode.SUCCESS);
+                resp.setMessage("SUCCESS");
                 return  resp;
             }else{
                 throw new CrudOperationException("The List is Empty", Trame.ResponseCode.NOT_FOUND);
@@ -86,6 +89,7 @@ public class ClientServices {
             if (collecte != null){
                 resp.setData(collecte);
                 resp.setStatus(Trame.ResponseCode.SUCCESS);
+                resp.setMessage("SUCCESS");
                 return  resp;
             }else{
                 throw new CrudOperationException("The Client not found ", Trame.ResponseCode.NOT_FOUND);
@@ -95,7 +99,7 @@ public class ClientServices {
             resp.setStatus(e.getResponse().getStatus());
             resp.setMessage(e.getResponse().getMessage());
         }
-       return  resp;
+        return  resp;
     }
 
 
@@ -107,6 +111,7 @@ public class ClientServices {
             if (collecte != null){
                 resp.setData(collecte);
                 resp.setStatus(Trame.ResponseCode.SUCCESS);
+                resp.setMessage("SUCCESS");
                 return  resp;
             }else{
                 throw new CrudOperationException("Client not found ", Trame.ResponseCode.NOT_FOUND);
@@ -125,11 +130,11 @@ public class ClientServices {
         try {
             String nextClientNumber = clientRepository.getNextClientNumber(clientCollecte.getNumCol());
             if (nextClientNumber != null){
-
                 clientCollecte.setNum(nextClientNumber);
                 clientRepository.save(clientCollecte);
                 resp.setData(nextClientNumber);
                 resp.setStatus(Trame.ResponseCode.SUCCESS);
+                resp.setMessage("SUCCESS");
                 return  resp;
             }else{
                 throw new CrudOperationException("The collector number given was not found ", Trame.ResponseCode.NOT_FOUND);
@@ -151,6 +156,7 @@ public class ClientServices {
                 clientCollecte.setPIN(password);
                 resp.setData( clientRepository.save(clientCollecte));
                 resp.setStatus(Trame.ResponseCode.SUCCESS);
+                resp.setMessage("SUCCESS");
                 return  resp;
             }else{
                 throw new CrudOperationException("The collector number given was not found ", Trame.ResponseCode.NOT_FOUND);

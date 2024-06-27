@@ -15,10 +15,16 @@ public class ClientRepositoryCustomImpl implements ClientRepositoryCustom {
 
     @Override
     public String getNextClientNumber(String numCol) {
-        String sql = "SELECT c.num FROM ClientCollecte c WHERE c.numCol = :numCol ORDER BY c.num DESC LIMIT 1";
+        String sql = "SELECT TOP 1 c.num FROM ClientCollecte c WHERE c.numCol = ? ORDER BY c.num DESC";
         Query query = entityManager.createNativeQuery(sql);
-        query.setParameter("numCol", numCol);
+        query.setParameter(1, numCol); // Use positional parameter for native query
+
         String lastClientNumber = (String) query.getSingleResult();
+
+        // If no result found, start with the initial number
+        if (lastClientNumber == null) {
+            return numCol + "0001"; // Assuming the initial format is C010001
+        }
 
         // Extract numeric part and increment it
         int numericPart = Integer.parseInt(lastClientNumber.substring(numCol.length())) + 1;

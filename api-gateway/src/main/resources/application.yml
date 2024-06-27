@@ -1,54 +1,51 @@
-server:
-  port: 8080
+spring:
+ cloud:
+   gateway:
+     routes:
+       - id: users-services
+         uri: lb://USERS-SERVICES
+         predicates:
+           - Path=/users/**
+         filters:
+           - AuthenticationFilter
+
+       - id: transaction-services
+         uri: lb://TRANSACTION-SERVICES
+         predicates:
+           - Path=/transactions/**
+         filters:
+           - AuthenticationFilter
+
+       - id: reporting-services
+         uri: lb://REPORTING-SERVICES
+         predicates:
+           - Path=/reports/**
+         filters:
+           - AuthenticationFilter
+
+       - id: loans-services
+         uri: lb://LOAN-SERVICE
+         predicates:
+           - Path=/loan/**
+         filters:
+           - AuthenticationFilter
+
+       - id: client-services
+         uri: lb://CLIENT-SERVICE
+         predicates:
+           - Path=/client/**
+         filters:
+           - AuthenticationFilter
+
+       - id: authentification-services
+         uri: lb://AUTHENTICATION-SERVICE
+         predicates:
+           - Path=/auth/**
+
+ application:
+   name: Api-gateway
 
 eureka:
   client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-  instance:
-    preferIpAddress: true
-
-spring:
-  application:
-    name: api-gateway
-  cloud:
-    gateway:
-      routes:
-        - id: authentication-services
-          uri: lb://authentication-services
-          predicates:
-            - Path=/auth/**
-
-        - id: client-services
-          uri: lb://client-services
-          predicates:
-            - Path=/clients/**
-
-        - id: loans-services
-          uri: lb://loans-services
-          predicates:
-            - Path=/loans/**
-
-        - id: reporting-services
-          uri: lb://reporting-services
-          predicates:
-            - Path=/reports/**
-
-        - id: transaction-services
-          uri: lb://transaction-services
-          predicates:
-            - Path=/transactions/**
-
-        - id: users-services
-          uri: lb://users-services
-          predicates:
-            - Path=/users/**
-
-      discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true
-
-logging:
-  level:
-    org.springframework.cloud.gateway: DEBUG
+    service-url:
+      defaultZone : http://localhost:8761/eureka/

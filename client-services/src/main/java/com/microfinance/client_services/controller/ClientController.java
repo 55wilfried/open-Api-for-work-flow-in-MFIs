@@ -6,11 +6,11 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 @CrossOrigin(origins= {"*"}, maxAge = 3600, allowCredentials = "false")
 @RestController
 @RequestMapping("/client")
 public class ClientController {
+
     @Autowired
     private ClientServices clientService;
 
@@ -48,6 +48,4 @@ public class ClientController {
     public APIResponse getAllClientsByCollector(@PathVariable String collector) {
         return clientService.getAllClientByCol(collector);
     }
-
-
 }

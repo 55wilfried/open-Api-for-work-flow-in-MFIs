@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ClientRepository extends JpaRepository<ClientCollecte,String> , ClientRepositoryCustom {
+public interface ClientRepository extends JpaRepository<ClientCollecte,String>, ClientRepositoryCustom {
     @Query("SELECT u FROM ClientCollecte u WHERE LOWER(u.num) =LOWER(:num)")
     ClientCollecte findByNum(@Param("num") String num);
 

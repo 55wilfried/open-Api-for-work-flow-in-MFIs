@@ -1,11 +1,12 @@
 package com.microfinance.transaction_services.transactionRepository;
 
-import com.microfinance.transaction_services.models.OperationCollecte;
+import com.microfinance.transaction_services.dto.OperationCollecte;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 
 import java.util.Date;
 import java.util.List;
@@ -21,16 +22,27 @@ public interface TransactionRepository extends JpaRepository<OperationCollecte,S
     @Query("SELECT u FROM OperationCollecte u WHERE LOWER(u.num) =LOWER(:num)")
     OperationCollecte findByNum(@Param("num") String num);
 
-    @Query("SELECT e FROM OperationCollecte e " +
-            "WHERE (:startDate is null or e.dateOp >= :startDate) " +
-            "AND (:endDate is null or e.dateOp <= :endDate) " +
-            "AND (:numCol is null or e.numCol = :numCol) " +
-            "AND (:codage is null or e.codage = :codage) " +
-            "AND (:numcli is null or e.numcli = :numcli)")
-    List<OperationCollecte> findEntitiesByParamsAndDateRange(Date startDate, Date endDate, String numCol, String codage, String numcli);
+    @Query("SELECT o FROM OperationCollecte o " +
+            "WHERE (:num IS NULL OR o.num = :num) " +
+            "AND (:dateOp_start IS NULL OR o.dateOp >= :dateOp_start) " +
+            "AND (:dateOp_end IS NULL OR o.dateOp <= :dateOp_end) " +
+            "AND (:numCol IS NULL OR o.numCol = :numCol) " +
+            "AND (:codage IS NULL OR o.codage = :codage) " +
+            "AND (:numcli IS NULL OR o.numcli = :numcli)")
+    List<OperationCollecte> findOperations(
+            @Param("num") String num,
+            @Param("dateOp_start") Date dateOP_start,
+            @Param("dateOp_end") Date dateOP_end,
+            @Param("numCol") String numCol,
+            @Param("codage") String codage,
+            @Param("numcli") String numcli
+    );
+
 
     @Query("SELECT MAX(o.num) FROM OperationCollecte o WHERE LOWER(o.numCol) = LOWER(:numCol)")
     String findMaxNumByCollector(@Param("numCol") String collector);
+
+
 
 
 }

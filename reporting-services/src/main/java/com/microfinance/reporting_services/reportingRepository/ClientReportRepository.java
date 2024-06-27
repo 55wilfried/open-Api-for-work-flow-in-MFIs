@@ -1,6 +1,6 @@
 package com.microfinance.reporting_services.reportingRepository;
 
-import com.microfinance.reporting_services.models.ClientCollecte;
+import com.microfinance.reporting_services.dto.ClientCollecte;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
