@@ -7,7 +7,7 @@ package com.microfinance.authentification_services.utils;
 
 /**
  *
- * @author Henry
+ * @author Wil
  */
 public class APIResponse {
     private int status;

@@ -4,13 +4,13 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
-        <option value="$PROJECT_DIR$/../../api-gateway/pom.xml" />
-        <option value="$PROJECT_DIR$/../../authentification-services/pom.xml" />
-        <option value="$PROJECT_DIR$/../../client-services/pom.xml" />
-        <option value="$PROJECT_DIR$/../../reporting-services/pom.xml" />
-        <option value="$PROJECT_DIR$/../../transaction-services/pom.xml" />
-        <option value="$PROJECT_DIR$/../../users-services/pom.xml" />
-        <option value="$PROJECT_DIR$/../../loans-services/pom.xml" />
+        <option value="$USER_HOME$/api-gateway/pom.xml" />
+        <option value="$USER_HOME$/authentification-services/pom.xml" />
+        <option value="$USER_HOME$/client-services/pom.xml" />
+        <option value="$USER_HOME$/reporting-services/pom.xml" />
+        <option value="$USER_HOME$/transaction-services/pom.xml" />
+        <option value="$USER_HOME$/users-services/pom.xml" />
+        <option value="$USER_HOME$/loans-services/pom.xml" />
         <option value="$PROJECT_DIR$/api-gateway/pom.xml" />
         <option value="$PROJECT_DIR$/loans-services/pom.xml" />
         <option value="$PROJECT_DIR$/transaction-services/pom.xml" />
@@ -19,7 +19,7 @@
         <option value="$PROJECT_DIR$/registry /pom.xml" />
         <option value="$PROJECT_DIR$/reporting-services/pom.xml" />
         <option value="$PROJECT_DIR$/authentification-services/pom.xml" />
-        <option value="$PROJECT_DIR$/../../register/pom.xml" />
+        <option value="$USER_HOME$/register/pom.xml" />
         <option value="$PROJECT_DIR$/register/pom.xml" />
       </list>
     </option>
@@ -29,7 +29,7 @@
       </set>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_22" default="true" project-jdk-name="openjdk-22" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="temurin-21" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="SQLPlugin.ProjectConfiguration">

@@ -28,7 +28,7 @@
       <module name="authentification-services" options="-parameters" />
       <module name="client-services" options="-parameters" />
       <module name="loans-services" options="-parameters" />
-      <module name="register" options="-parameters" />
+      <module name="register" options="" />
       <module name="registry" options="-parameters" />
       <module name="reporting-services" options="-parameters" />
       <module name="transaction-services" options="-parameters" />

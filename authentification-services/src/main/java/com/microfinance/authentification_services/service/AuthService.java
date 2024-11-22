@@ -9,8 +9,6 @@ import com.microfinance.authentification_services.utils.APIResponse;
 import com.microfinance.authentification_services.utils.CrudOperationException;
 import com.microfinance.authentification_services.utils.Encryption;
 import com.microfinance.authentification_services.utils.Trame;
-
-import lombok.var;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
