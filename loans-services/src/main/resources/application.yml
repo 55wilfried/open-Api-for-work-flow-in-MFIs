@@ -5,7 +5,20 @@ spring:
   application:
     name: Loan-SERVICE
 
-eureka:
-  client:
-    service-url:
-      defaultZone : http://localhost:8761/eureka/
+  datasource:
+    url: jdbc:sqlserver://localhost:1433;databaseName=banque;encrypt=true;trustServerCertificate=true
+    username: API
+    password: SA@1T3CH
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        physical_naming_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+logging:
+  level:
+    org.springframework: DEBUG

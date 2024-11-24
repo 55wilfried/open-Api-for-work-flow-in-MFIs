@@ -31,7 +31,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
             if (validator.isSecured.test(exchange.getRequest())) {
-                // Header contains token or not
+                // Authentication logic for secured endpoints
                 if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
                     return helper.handleErrorResponse(exchange, "Missing Authorization header", HttpStatus.UNAUTHORIZED);
                 }
@@ -39,7 +39,6 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                 String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
                 if (authHeader != null && authHeader.startsWith("Bearer ")) {
                     authHeader = authHeader.substring(7);
-
                     try {
                         jwtUtil.validateToken(authHeader);
                     } catch (Exception e) {
@@ -49,9 +48,10 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                     return helper.handleErrorResponse(exchange, "Invalid token format", HttpStatus.BAD_REQUEST);
                 }
             }
-            return chain.filter(exchange);
+            return chain.filter(exchange);  // Allow request to continue for non-secure endpoints like Swagger UI
         };
     }
+
 
     public static class Config {
 

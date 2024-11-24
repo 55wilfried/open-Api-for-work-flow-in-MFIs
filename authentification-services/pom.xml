@@ -7,28 +7,26 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.1.5</version> <!-- Compatible with Java 21 -->
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 
 	<groupId>com.microfinance</groupId>
 	<artifactId>authentification-services</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>authentification-services</name>
-	<description>Authentification services</description>
+	<description>Authentication services</description>
 
 	<properties>
-		<java.version>21</java.version>
-		<spring-cloud.version>2022.0.5</spring-cloud.version> <!-- Use latest version compatible with Spring Boot 3.x -->
-		<spring-boot.version>3.1.5</spring-boot.version> <!-- Add this line to define Spring Boot version -->
+		<java.version>21</java.version> <!-- Updated to Java 21 -->
+		<spring-cloud.version>2022.0.5</spring-cloud.version>
 	</properties>
 
 	<dependencies>
 		<!-- Spring Boot Starter Web for web-related dependencies (including embedded Tomcat) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webflux</artifactId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 
 		<!-- Spring Boot Starter Data JPA for database interactions -->
 		<dependency>
@@ -80,10 +78,10 @@
 		</dependency>
 
 		<!-- Jakarta Validation API for bean validation -->
-
-
-		<!-- Jakarta Servlet API (for use with Spring Boot 3.x and Jakarta EE 9.1) -->
-
+		<dependency>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId>
+		</dependency>
 
 		<!-- JUnit for testing -->
 		<dependency>
@@ -104,7 +102,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<version>${spring-boot.version}</version> <!-- Use defined spring-boot.version -->
 			<scope>test</scope>
 		</dependency>
 
@@ -112,9 +109,36 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
-			<version>${spring-security.version}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- Test dependency for mocking -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-inline</artifactId>
+			<version>4.6.0</version> <!-- Change to a valid version -->
+			<scope>test</scope>
+		</dependency>
+
+
+		<!-- Dependency for testing with the users-services module -->
+		<dependency>
+			<groupId>com.microfinance</groupId>
+			<artifactId>users-services</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.6.15</version>
+		</dependency>
+
 	</dependencies>
 
 	<dependencyManagement>
@@ -135,6 +159,8 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+			<!-- Maven Compiler Plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -146,4 +172,5 @@
 			</plugin>
 		</plugins>
 	</build>
+
 </project>

@@ -3,42 +3,42 @@ spring:
    gateway:
      routes:
        - id: users-services
-         uri: lb://USERS-SERVICES
+         uri:  http://localhost:8083
          predicates:
            - Path=/users/**
          filters:
            - AuthenticationFilter
 
        - id: transaction-services
-         uri: lb://TRANSACTION-SERVICES
+         uri:  http://localhost:8084
          predicates:
            - Path=/transactions/**
          filters:
            - AuthenticationFilter
 
        - id: reporting-services
-         uri: lb://REPORTING-SERVICES
+         uri:  http://localhost:8085
          predicates:
            - Path=/reports/**
          filters:
            - AuthenticationFilter
 
        - id: loans-services
-         uri: lb://LOAN-SERVICE
+         uri:  http://localhost:8086
          predicates:
            - Path=/loan/**
          filters:
            - AuthenticationFilter
 
        - id: client-services
-         uri: lb://CLIENT-SERVICE
+         uri:  http://localhost:8082
          predicates:
            - Path=/client/**
          filters:
            - AuthenticationFilter
 
        - id: authentification-services
-         uri: lb://AUTHENTICATION-SERVICE
+         uri:  http://localhost:8081
          predicates:
            - Path=/auth/**
 

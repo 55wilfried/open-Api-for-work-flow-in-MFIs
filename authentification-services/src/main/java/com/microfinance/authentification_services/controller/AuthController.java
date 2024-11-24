@@ -4,6 +4,7 @@ import com.microfinance.authentification_services.service.AuthService;
 import com.microfinance.authentification_services.utils.APIResponse;
 
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,13 +22,13 @@ public class AuthController {
 
 
 
-
+    @Operation(summary = "Login collector", description = "I take collector request model")
     @PostMapping("/login")
     public APIResponse login(@RequestBody @Valid String client) {
         System.out.println("Login method called");
         return this.service.loginCollector(client);
     }
-
+    @Operation(summary = "Login User", description = "I take user request model")
     @PostMapping("/loginUser")
     public APIResponse loginUser(@RequestBody  String client) {
         System.out.println("LoginUser method called");
