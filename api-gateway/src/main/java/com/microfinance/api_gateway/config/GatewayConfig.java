@@ -17,6 +17,7 @@ public class GatewayConfig {
                 .build();
     }
 
+
     @Bean
     public GroupedOpenApi userServicesApi() {
         return GroupedOpenApi.builder()

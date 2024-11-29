@@ -14,23 +14,26 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class AuthConfig {
 
-
+    // Configure HTTP security
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests()
+                // Publicly accessible endpoints
                 .requestMatchers("/auth/login", "/auth/loginUser").permitAll()
+                // All other endpoints require authentication
+                .anyRequest().authenticated()
                 .and()
                 .build();
     }
 
+    // Bean for password encoding
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-
-
+    // Bean for AuthenticationManager, required for manual authentication handling
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();

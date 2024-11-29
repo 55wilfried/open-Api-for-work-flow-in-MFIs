@@ -1,52 +1,79 @@
 spring:
- cloud:
-   gateway:
-     routes:
-       - id: users-services
-         uri:  http://localhost:8083
-         predicates:
-           - Path=/users/**
-         filters:
-           - AuthenticationFilter
+  cloud:
+    gateway:
+      routes:
+        - id: users-services
+          uri:  http://localhost:8083
+          predicates:
+            - Path=/users/**
+          filters:
+            - AuthenticationFilter
+        - id: transaction-services
+          uri:  http://localhost:8084
+          predicates:
+            - Path=/transactions/**
+          filters:
+            - AuthenticationFilter
+        - id: reporting-services
+          uri:  http://localhost:8085
+          predicates:
+            - Path=/reports/**
+          filters:
+            - AuthenticationFilter
+        - id: loans-services
+          uri:  http://localhost:8086
+          predicates:
+            - Path=/loan/**
+          filters:
+            - AuthenticationFilter
+        - id: client-services
+          uri:  http://localhost:8082
+          predicates:
+            - Path=/client/**
+          filters:
+            - AuthenticationFilter
+        - id: authentification-services
+          uri:  http://localhost:8081
+          predicates:
+            - Path=/auth/**
+    globalcors:
+      add-to-simple-url-handler-mapping: true
+      allowed-origins: "http://localhost:8080, http://localhost:8083"  # Allow both origins
+      allowed-methods: GET, POST, PUT, DELETE
+      application:
+        name: Api-gateway
+    server:
+      port: 8080
 
-       - id: transaction-services
-         uri:  http://localhost:8084
-         predicates:
-           - Path=/transactions/**
-         filters:
-           - AuthenticationFilter
-
-       - id: reporting-services
-         uri:  http://localhost:8085
-         predicates:
-           - Path=/reports/**
-         filters:
-           - AuthenticationFilter
-
-       - id: loans-services
-         uri:  http://localhost:8086
-         predicates:
-           - Path=/loan/**
-         filters:
-           - AuthenticationFilter
-
-       - id: client-services
-         uri:  http://localhost:8082
-         predicates:
-           - Path=/client/**
-         filters:
-           - AuthenticationFilter
-
-       - id: authentification-services
-         uri:  http://localhost:8081
-         predicates:
-           - Path=/auth/**
-
- application:
-   name: Api-gateway
-server:
-  port: 8080
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone : http://localhost:8761/eureka/
+    springdoc:
+      api-docs:
+        enabled: true
+        path: /v3/api-docs
+        groups:
+          authentification-services:
+            paths-to-match: /auth/**
+          users-services:
+            paths-to-match: /users/**
+          transaction-services:
+            paths-to-match: /transactions/**
+          reporting-services:
+            paths-to-match: /reports/**
+          loan-services:
+            paths-to-match: /loan/**
+          client-services:
+            paths-to-match: /client/**
+      swagger-ui:
+        path: /swagger-ui.html
+        urls:
+          - name: "Authentification Services"
+            url: "http://localhost:8081/v3/api-docs"
+          - name: "users-services"
+            url: "http://localhost:8083/v3/api-docs"
+          - name: "Transaction Services"
+            url: "http://localhost:8084/v3/api-docs"
+          - name: "Reporting Services"
+            url: "http://localhost:8085/v3/api-docs"
+          - name: "Loan Services"
+            url: "http://localhost:8086/v3/api-docs"
+          - name: "Client Services"
+            url: "http://localhost:8082/v3/api-docs"

@@ -12,9 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:8080", maxAge = 3600, allowCredentials = "true")
 @Service
 public class UserServices {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServices.class);
