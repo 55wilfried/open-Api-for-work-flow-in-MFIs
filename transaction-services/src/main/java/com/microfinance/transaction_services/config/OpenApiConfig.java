@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition(
         info = @Info(
                 title = "Transaction Service",
-                version = "v1",
+                version = "1.0",
                 description = "API for transaction services"
         ),
         servers = {

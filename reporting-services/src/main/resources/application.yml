@@ -5,6 +5,15 @@ spring:
   application:
     name: Reporting-Services
 
+  webflux:
+    cors:
+      allowed-origins:
+        - "http://localhost:8080"
+        - "http://localhost:8085"
+      allowed-methods: "GET,POST,PUT,DELETE"
+      allowed-headers: "*"
+      allow-credentials: true
+
 #eureka:
 #  client:
 #    service-url:

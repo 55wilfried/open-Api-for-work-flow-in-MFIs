@@ -65,7 +65,7 @@ public class Collecteur {
     private String localisation;
 
     @Column(name = "codage", nullable = false, length = 12)
-    @Schema(description = "Codage (code) associated with the collector.", example = "COD123456789", required = true)
+    @Schema(description = "Codage (code)  collector agency code.", example = "COD123456789", required = true)
     private String codage;
 
     @Column(name = "idFront", length = 255)
