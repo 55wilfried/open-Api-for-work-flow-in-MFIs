@@ -1,4 +1,4 @@
-package com.microfinance.loans_services.loansController;
+package com.microfinance.auth_services.AuthController;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

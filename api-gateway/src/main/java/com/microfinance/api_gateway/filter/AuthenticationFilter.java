@@ -27,6 +27,13 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
  @Autowired
     private Helpers helper;
 
+    @Autowired
+    private JwtUtil jwtService;
+
+    public String generateToken(String username) {
+        return jwtService.generateToken(username);
+    }
+
     @Override
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
@@ -42,7 +49,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                     try {
                         jwtUtil.validateToken(authHeader);
                     } catch (Exception e) {
-                        return helper.handleErrorResponse(exchange, "Unauthorized access to application", HttpStatus.UNAUTHORIZED);
+                        return helper.handleErrorResponse(exchange, generateToken("C010 ") , HttpStatus.UNAUTHORIZED);
                     }
                 } else {
                     return helper.handleErrorResponse(exchange, "Invalid token format", HttpStatus.BAD_REQUEST);

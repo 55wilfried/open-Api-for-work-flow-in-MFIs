@@ -15,6 +15,7 @@
         <module name="client-services" />
         <module name="loans-services" />
         <module name="api-gateway" />
+        <module name="auth-services" />
         <module name="register" />
       </profile>
     </annotationProcessing>
@@ -25,6 +26,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="api-gateway" options="-parameters" />
+      <module name="auth-services" options="-parameters" />
       <module name="authentification-services" options="-parameters" />
       <module name="client-services" options="-parameters" />
       <module name="loans-services" options="-parameters" />

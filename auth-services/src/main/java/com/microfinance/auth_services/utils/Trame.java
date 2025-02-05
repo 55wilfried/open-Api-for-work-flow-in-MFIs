@@ -1,6 +1,4 @@
-package com.microfinance.loans_services.utils;
-
-
+package com.microfinance.auth_services.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

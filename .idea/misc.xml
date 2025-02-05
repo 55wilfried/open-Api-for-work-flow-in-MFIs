@@ -21,6 +21,7 @@
         <option value="$PROJECT_DIR$/authentification-services/pom.xml" />
         <option value="$USER_HOME$/register/pom.xml" />
         <option value="$PROJECT_DIR$/register/pom.xml" />
+        <option value="$PROJECT_DIR$/auth-services/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

@@ -1,4 +1,4 @@
-package com.microfinance.loans_services.models;
+package com.microfinance.auth_services.models;
 
 
 

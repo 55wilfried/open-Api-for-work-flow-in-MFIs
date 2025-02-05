@@ -15,94 +15,86 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-
 public class AuthService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthService.class);
+
     @Autowired
     private AuthentificationRepository authentificationRepository;
+
     @Autowired
     private AuthentificationRepositoryUSer authentificationRepositoryUSer;
-    @Autowired
-    private JwtService jwtServices;
 
+    @Autowired
+    private JwtService jwtService;
 
     public String generateToken(String username) {
-        return jwtServices.generateToken(username);
+        return jwtService.generateToken(username);
     }
 
     public void validateToken(String token) {
-        jwtServices.validateToken(token);
+        jwtService.validateToken(token);
     }
 
-
-
-
-    public APIResponse loginCollector(String login) {
-        LOGGER.info("Premier test du Logger avec Logstash");
-        System.out.println("getAllClientByCodage" );
-        APIResponse resp = new APIResponse();
+    public APIResponse loginCollector(LoginRequest loginRequest) {
+        APIResponse response = new APIResponse();
         try {
-            LoginRequest loginRequest = Trame.getRequestData(login, LoginRequest.class);
-            System.out.println("getAllClientByCodage1" );
-            var password = loginRequest.getPassword();
-            System.out.println("getAllClientByCodage1" + password);
-            var userCode = loginRequest.getUserName();
-            Collecteur collecteur = authentificationRepository.findCollectorByNum(userCode);
-            System.out.println("getAllClientByCodage" + collecteur);
-            String hashedPassword = Encryption.hashPwd(password);
-            String finalHashPassword = hashedPassword.toUpperCase();
-            System.out.println("getAllClient password" + collecteur.getPassword());
-            System.out.println("getAllClient hash password" + hashedPassword);
-            if (finalHashPassword.equals(collecteur.getPassword())) {
-                if (collecteur.getIsLocked() == 1) {
-                    throw new CrudOperationException("USER HAS BEEN BLOCKED", Trame.ResponseCode.CONSTRAINT_ERROR);
-                }else {
-                    collecteur.setKey(generateToken(userCode));
-                    resp.setData(collecteur);
-                    resp.setStatus(Trame.ResponseCode.SUCCESS);
-                    resp.setMessage("Success");
-                    return resp;
-                }
-            }else{
-                throw new CrudOperationException("INVALID CREDENTIALS test", Trame.ResponseCode.ACCESS_DENIED);
+            LOGGER.info("Attempting login for collector: {}", loginRequest.getUserName());
+
+            Collecteur collecteur = authentificationRepository.findCollectorByNum(loginRequest.getUserName());
+            if (collecteur == null) {
+                throw new CrudOperationException("Collector not found", Trame.ResponseCode.NOT_FOUND);
             }
+
+            String hashedPassword = Encryption.hashPwd(loginRequest.getPassword()).toUpperCase();
+            if (!hashedPassword.equals(collecteur.getPassword())) {
+                throw new CrudOperationException("Invalid credentials you see please try again", Trame.ResponseCode.ACCESS_DENIED);
+            }
+
+            if (collecteur.getIsLocked() == 1) {
+                throw new CrudOperationException("User has been blocked", Trame.ResponseCode.CONSTRAINT_ERROR);
+            }
+
+            collecteur.setKey(generateToken(loginRequest.getUserName()));
+            response.setData(collecteur);
+            response.setStatus(Trame.ResponseCode.SUCCESS);
+            response.setMessage("Login successful");
         } catch (CrudOperationException e) {
-            resp.setStatus(e.getResponse().getStatus());
-            resp.setMessage(e.getResponse().getMessage());
+            LOGGER.error("Error during login: {}", e.getMessage());
+            response.setStatus(e.getResponse().getStatus());
+            response.setMessage(e.getResponse().getMessage());
         }
-        return resp;
+        return response;
     }
 
-    public APIResponse loginUser(String login) {
-        APIResponse resp = new APIResponse();
+    public APIResponse loginUser(LoginRequest loginRequest) {
+        APIResponse response = new APIResponse();
         try {
-            LoginRequest loginRequest = Trame.getRequestData(login, LoginRequest.class);
-            var password = loginRequest.getPassword();
-            var userCode = loginRequest.getUserName();
-            CollectUser collecteur = authentificationRepositoryUSer.findByUserName(userCode);
-            String hashedPassword = Encryption.hashPwd(password);
-            if (collecteur != null && hashedPassword.equals(collecteur.getPassword())) {
-                if (Boolean.TRUE.equals(collecteur.isActive())) {
-                    throw new CrudOperationException("USER HAS BEEN BLOCKED", Trame.ResponseCode.CONSTRAINT_ERROR);
-                }else {
-                    collecteur.setKey(generateToken(userCode));
-                    resp.setData(collecteur);
-                    resp.setMessage("Success");
-                    resp.setStatus(Trame.ResponseCode.SUCCESS);
-                }
-            }else{
-                throw new CrudOperationException("INVALID CREDENTIALS", Trame.ResponseCode.ACCESS_DENIED);
+            LOGGER.info("Attempting login for user: {}", loginRequest.getUserName());
+
+            CollectUser user = authentificationRepositoryUSer.findByUserName(loginRequest.getUserName());
+            if (user == null) {
+                throw new CrudOperationException("User not found", Trame.ResponseCode.NOT_FOUND);
             }
+
+            String hashedPassword = Encryption.hashPwd(loginRequest.getPassword());
+            if (!hashedPassword.equals(user.getPassword())) {
+                throw new CrudOperationException("Invalid credentials", Trame.ResponseCode.ACCESS_DENIED);
+            }
+
+            if (Boolean.TRUE.equals(user.isActive())) {
+                throw new CrudOperationException("User has been blocked", Trame.ResponseCode.CONSTRAINT_ERROR);
+            }
+
+            user.setKey(generateToken(loginRequest.getUserName()));
+            response.setData(user);
+            response.setStatus(Trame.ResponseCode.SUCCESS);
+            response.setMessage("Login successful");
         } catch (CrudOperationException e) {
-            resp.setStatus(e.getResponse().getStatus());
-            resp.setMessage(e.getResponse().getMessage());
+            LOGGER.error("Error during login: {}", e.getMessage());
+            response.setStatus(e.getResponse().getStatus());
+            response.setMessage(e.getResponse().getMessage());
         }
-        return resp;
+        return response;
     }
-
-
-
-
-
 }

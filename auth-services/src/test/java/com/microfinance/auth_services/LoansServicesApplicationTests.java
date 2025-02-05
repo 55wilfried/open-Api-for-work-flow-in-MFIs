@@ -1,4 +1,4 @@
-package com.microfinance.loans_services;
+package com.microfinance.auth_services;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

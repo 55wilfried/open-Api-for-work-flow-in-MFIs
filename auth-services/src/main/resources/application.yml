@@ -1,0 +1,31 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: Auth-SERVICE
+  webflux:
+    cors:
+      allowed-origins:
+        - "http://localhost:8080"
+        - "http://localhost:8088"
+      allowed-methods: "GET,POST,PUT,DELETE"
+      allowed-headers: "*"
+      allow-credentials: true
+  datasource:
+    url: jdbc:sqlserver://localhost:1433;databaseName=banque;encrypt=true;trustServerCertificate=true
+    username: API
+    password: SA@1T3CH
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        physical_naming_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+logging:
+  level:
+    org.springframework: DEBUG
