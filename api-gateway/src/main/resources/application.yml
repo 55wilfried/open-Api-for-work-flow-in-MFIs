@@ -125,9 +125,8 @@ spring:
           filters:
             - RewritePath=/loan/v3/api-docs, /v3/api-docs
 
-
         - id: auth-services
-          uri:  http://localhost:8088
+          uri:  http://localhost:8081
           predicates:
             - Path=/auth/**
             - Path=/auth/v3/api-docs

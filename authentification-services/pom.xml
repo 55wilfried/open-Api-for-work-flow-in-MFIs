@@ -26,7 +26,7 @@
 		<!-- Spring Boot Starter Web for web-related dependencies (including embedded Tomcat) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webflux</artifactId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
 		<!-- Spring Boot Starter Data JPA for database interactions -->
@@ -39,7 +39,16 @@
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
 			<artifactId>mssql-jdbc</artifactId>
+			<!--	<version>12.2.0.jre11</version>  Compatible with Java 21 -->
 		</dependency>
+
+		<!-- Spring Boot Starter Security for handling security features
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		  -->
 
 		<!-- Spring Cloud Starter Gateway for API Gateway functionality -->
 		<dependency>
@@ -85,11 +94,41 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.8.2</version>
+			<scope>test</scope>
+		</dependency>
+
 		<!-- Spring Boot Test dependency for Spring Boot tests -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<!-- Spring Security Test dependency if needed for security-related testing
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+a
+		-->
+
+		<!-- Test dependency for mocking -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-inline</artifactId>
+			<version>4.6.0</version> <!-- Change to a valid version -->
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.1.0</version>
 		</dependency>
 
 		<!-- Dependency for testing with the users-services module -->
@@ -99,17 +138,14 @@
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
-
-		<!-- WebFlux UI Dependency for Swagger -->
 		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-webflux-ui</artifactId>
-			<version>1.6.9</version> <!-- Try this version -->
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 
 	</dependencies>
-
 
 	<dependencyManagement>
 		<dependencies>

@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
                 version = "1.0",
                 description = "API for Authenticating Users"
         ),
-        servers = @Server(url = "http://localhost:8081", description = "Authentification services ")
+        servers = @Server(url = "http://localhost:8088", description = "Authentification services ")
 )
 public class OpenApiConfig {
 }

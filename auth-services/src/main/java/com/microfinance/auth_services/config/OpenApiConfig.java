@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
                 description = "API documentation for Loan services"
         ),
         servers = {
-                @Server(url = "http://localhost:8088", description = "Auth Services")
+                @Server(url = "http://localhost:8081", description = "Auth Services")
         }
 )
 public class OpenApiConfig {

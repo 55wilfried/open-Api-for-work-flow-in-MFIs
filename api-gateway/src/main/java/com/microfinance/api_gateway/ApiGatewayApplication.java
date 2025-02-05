@@ -11,5 +11,5 @@ public class ApiGatewayApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ApiGatewayApplication.class, args);
 	}
-
+	//http://localhost:8080/webjars/swagger-ui/index.html#/
 }
