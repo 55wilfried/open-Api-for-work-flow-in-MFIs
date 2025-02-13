@@ -17,7 +17,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for APIs
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/auth/login",
+                                "/auth/loginCollector",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/swagger-resources/**",
@@ -36,6 +36,24 @@ public class SecurityConfig {
     }
 
 
+
+   /* @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .csrf(csrf -> csrf.disable()) // Disable CSRF for APIs
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/auth/login", "/auth/register").permitAll() // Allow login & registration
+                        .requestMatchers("/swagger-ui/**","/auth/loginCollector/**","/v3/api-docs/**", "/swagger-resources/**","/webjars/**","/configuration/ui" ).authenticated() // Require login for Swagger
+                        .anyRequest().authenticated() // Protect all other endpoints
+                )
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Use stateless sessions
+                .formLogin(form -> form
+                        .loginPage("/login") // Specify login form URL
+                        .permitAll()
+                )
+                .logout(logout -> logout.logoutUrl("/logout").permitAll()) // Enable logout
+                .build();
+    }*/
 
 
 }

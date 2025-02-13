@@ -1,90 +1,36 @@
-#spring:
-#  cloud:
-#    gateway:
-#      routes:
-#        - id: users-services
-#          uri:  http://localhost:8083
-#          predicates:
-#            - Path=/users/**
-#        - id: transaction-services
-#          uri:  http://localhost:8084
-#          predicates:
-#            - Path=/transactions/**
-#          filters:
-#            - AuthenticationFilter
-#        - id: reporting-services
-#          uri:  http://localhost:8085
-#          predicates:
-#            - Path=/reports/**
-#          filters:
-#            - AuthenticationFilter
-#        - id: loans-services
-#          uri:  http://localhost:8086
-#          predicates:
-#            - Path=/loan/**
-#          filters:
-#            - AuthenticationFilter
-#        - id: client-services
-#          uri:  http://localhost:8082
-#          predicates:
-#            - Path=/client/**
-#          filters:
-#            - AuthenticationFilter
-#        - id: authentification-services
-#          uri:  http://localhost:8081
-#          predicates:
-#            - Path=/auth/**
-#    globalcors:
-#      add-to-simple-url-handler-mapping: true
-#      allowed-origins: "http://localhost:8080, http://localhost:8083"  # Allow both origins
-#      allowed-methods: GET, POST, PUT, DELETE
-#      application:
-#        name: Api-gateway
-#    server:
-#      port: 8080
-#
-#    springdoc:
-#      api-docs:
-#        enabled: true
-#        path: /v3/api-docs
-#        groups:
-#          authentification-services:
-#            paths-to-match: /auth/**
-#          users-services:
-#            paths-to-match: /users/**
-#          transaction-services:
-#            paths-to-match: /transactions/**
-#          reporting-services:
-#            paths-to-match: /reports/**
-#          loan-services:
-#            paths-to-match: /loan/**
-#          client-services:
-#            paths-to-match: /client/**
-#      swagger-ui:
-#        path: /swagger-ui.html
-#        urls:
-#          - name: "Authentification Services"
-#            url: "http://localhost:8081/v3/api-docs"
-#          - name: "users-services"
-#            url: "http://localhost:8083/v3/api-docs"
-#          - name: "Transaction Services"
-#            url: "http://localhost:8084/v3/api-docs"
-#          - name: "Reporting Services"
-#            url: "http://localhost:8085/v3/api-docs"
-#          - name: "Loan Services"
-#            url: "http://localhost:8086/v3/api-docs"
-#          - name: "Client Services"
-#            url: "http://localhost:8082/v3/api-docs"
-
 server:
   port: 8080
 
 spring:
   application:
     name: api-gateway
+  management:
+    health:
+      status:
+        show-details: always  # Display more detailed health status
+    endpoints:
+      web:
+        exposure:
+          include: "*"
+        base-path: /actuator
+    webflux:
+      cors:
+        allowed-origins:
+          - "http://localhost:8080"
+          - "http://localhost:8081"
+          - "http://localhost:8082"
+          - "http://localhost:8083"
+          - "http://localhost:8084"
+          - "http://localhost:8085"
+          - "http://localhost:8086"
+        allowed-methods: "GET, POST, PUT, DELETE"
+        allowed-headers: "*"
+        allow-credentials: true
+
   cloud:
     gateway:
       routes:
+        # Clients Service
         - id: clients-service
           uri: http://localhost:8082
           predicates:
@@ -92,15 +38,19 @@ spring:
             - Path=/client/v3/api-docs
           filters:
             - RewritePath=/client/v3/api-docs, /v3/api-docs
+            - RewritePath=/client/(?<remaining>.*), /$\{remaining}  # Corrected rewrite for client endpoints
 
+        # Users Service
         - id: users-services
-          uri:  http://localhost:8083
+          uri: http://localhost:8083
           predicates:
             - Path=/users/**
             - Path=/users/v3/api-docs
           filters:
             - RewritePath=/users/v3/api-docs, /v3/api-docs
+            - RewritePath=/users/(?<remaining>.*), /$\{remaining}  # Corrected rewrite for users endpoints
 
+        # Transactions Service
         - id: transactions-service
           uri: http://localhost:8084
           predicates:
@@ -108,38 +58,37 @@ spring:
             - Path=/transactions/v3/api-docs
           filters:
             - RewritePath=/transactions/v3/api-docs, /v3/api-docs
+            - RewritePath=/transactions/(?<remaining>.*), /$\{remaining}  # Corrected rewrite for transactions endpoints
 
+        # Reporting Service
         - id: reporting-services
-          uri:  http://localhost:8085
+          uri: http://localhost:8085
           predicates:
             - Path=/reports/**
             - Path=/reports/v3/api-docs
           filters:
             - RewritePath=/reports/v3/api-docs, /v3/api-docs
+            - RewritePath=/reports/(?<remaining>.*), /$\{remaining}  # Corrected rewrite for reports endpoints
 
+        # Loans Service
         - id: loans-services
-          uri:  http://localhost:8086
+          uri: http://localhost:8086
           predicates:
             - Path=/loan/**
             - Path=/loan/v3/api-docs
           filters:
             - RewritePath=/loan/v3/api-docs, /v3/api-docs
+            - RewritePath=/loan/(?<remaining>.*), /$\{remaining}  # Corrected rewrite for loans endpoints
 
+        # Auth Service
         - id: auth-services
-          uri:  http://localhost:8081
+          uri: http://localhost:8081
           predicates:
             - Path=/auth/**
             - Path=/auth/v3/api-docs
           filters:
             - RewritePath=/auth/v3/api-docs, /v3/api-docs
-
-
-
-    webflux:
-      cors:
-        allowed-origins: "*"
-        allowed-methods: "*"
-        allowed-headers: "*"
+            - RewritePath=/auth/(?<remaining>.*), /$\{remaining}  # Fixed the rewrite for auth service
 
 springdoc:
   swagger-ui:
@@ -156,14 +105,12 @@ springdoc:
         url: /loan/v3/api-docs
       - name: Auth Service
         url: /auth/v3/api-docs
-
-
     path: /swagger-ui.html
+
   api-docs:
     enabled: true
 
-
-
-
-
-
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty.http.client: DEBUG

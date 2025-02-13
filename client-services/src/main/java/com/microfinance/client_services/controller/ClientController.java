@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
  * Controller class to handle client-related requests.
  * Handles client creation, update, and retrieval.
  */
-@CrossOrigin(origins = "http://localhost:8080", maxAge = 3600, allowCredentials = "true")
+//@CrossOrigin(origins = "http://localhost:8080", maxAge = 3600, allowCredentials = "true")
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/client")
 public class ClientController {
