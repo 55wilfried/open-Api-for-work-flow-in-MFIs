@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/users")
 //@CrossOrigin(origins = {"*"}, maxAge = 3600, allowCredentials = "true")
-@CrossOrigin(origins = "http://localhost:8080", maxAge = 3600, allowCredentials = "true")
+//@CrossOrigin(origins = "http://localhost:8080", maxAge = 3600, allowCredentials = "true")
+@CrossOrigin(origins = "*", maxAge = 3600)
 @Tag(name = "User Management Services", description = "APIs for managing Collect Users and Collectors")
 public class UserController {
 

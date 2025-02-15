@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/loan")
 //@CrossOrigin(origins= {"*"}, maxAge = 3600, allowCredentials = "false")
-@CrossOrigin(origins = "http://localhost:8080", maxAge = 3600, allowCredentials = "true")
+//@CrossOrigin(origins = "http://localhost:8080", maxAge = 3600, allowCredentials = "true")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class LoanController {
 
     @GetMapping("/welcome")

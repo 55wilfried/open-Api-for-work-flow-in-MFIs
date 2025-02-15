@@ -4,92 +4,66 @@ server:
 spring:
   application:
     name: api-gateway
+
   management:
-    health:
-      status:
-        show-details: always  # Display more detailed health status
     endpoints:
       web:
         exposure:
           include: "*"
         base-path: /actuator
-    webflux:
-      cors:
-        allowed-origins:
-          - "http://localhost:8080"
-          - "http://localhost:8081"
-          - "http://localhost:8082"
-          - "http://localhost:8083"
-          - "http://localhost:8084"
-          - "http://localhost:8085"
-          - "http://localhost:8086"
-        allowed-methods: "GET, POST, PUT, DELETE"
-        allowed-headers: "*"
-        allow-credentials: true
 
   cloud:
     gateway:
       routes:
         # Clients Service
         - id: clients-service
-          uri: http://localhost:8082
+          uri: lb://CLIENT-SERVICE
           predicates:
             - Path=/client/**
-            - Path=/client/v3/api-docs
           filters:
-            - RewritePath=/client/v3/api-docs, /v3/api-docs
-            - RewritePath=/client/(?<remaining>.*), /$\{remaining}  # Corrected rewrite for client endpoints
+            - RewritePath=/client/v3/api-docs, /v3/api-docs  # Fix for Swagger UI
 
         # Users Service
         - id: users-services
-          uri: http://localhost:8083
+          uri: lb://USERS-SERVICES
           predicates:
             - Path=/users/**
-            - Path=/users/v3/api-docs
           filters:
-            - RewritePath=/users/v3/api-docs, /v3/api-docs
-            - RewritePath=/users/(?<remaining>.*), /$\{remaining}  # Corrected rewrite for users endpoints
+            - RewritePath=/users/v3/api-docs, /v3/api-docs  # Fix for Swagger UI
 
         # Transactions Service
         - id: transactions-service
-          uri: http://localhost:8084
+          uri: lb://TRANSACTION-SERVICES
           predicates:
             - Path=/transactions/**
-            - Path=/transactions/v3/api-docs
           filters:
-            - RewritePath=/transactions/v3/api-docs, /v3/api-docs
-            - RewritePath=/transactions/(?<remaining>.*), /$\{remaining}  # Corrected rewrite for transactions endpoints
+            - RewritePath=/transactions/v3/api-docs, /v3/api-docs  # Fix for Swagger UI
 
         # Reporting Service
         - id: reporting-services
-          uri: http://localhost:8085
+          uri: lb://REPORTING-SERVICES
           predicates:
             - Path=/reports/**
-            - Path=/reports/v3/api-docs
           filters:
-            - RewritePath=/reports/v3/api-docs, /v3/api-docs
-            - RewritePath=/reports/(?<remaining>.*), /$\{remaining}  # Corrected rewrite for reports endpoints
+            - RewritePath=/reports/v3/api-docs, /v3/api-docs  # Fix for Swagger UI
 
         # Loans Service
         - id: loans-services
-          uri: http://localhost:8086
+          uri: lb://LOAN-SERVICE
           predicates:
             - Path=/loan/**
-            - Path=/loan/v3/api-docs
           filters:
-            - RewritePath=/loan/v3/api-docs, /v3/api-docs
-            - RewritePath=/loan/(?<remaining>.*), /$\{remaining}  # Corrected rewrite for loans endpoints
+            - RewritePath=/loan/v3/api-docs, /v3/api-docs  # Fix for Swagger UI
 
         # Auth Service
         - id: auth-services
-          uri: http://localhost:8081
+          uri: lb://AUTH-SERVICE
           predicates:
             - Path=/auth/**
-            - Path=/auth/v3/api-docs
           filters:
-            - RewritePath=/auth/v3/api-docs, /v3/api-docs
-            - RewritePath=/auth/(?<remaining>.*), /$\{remaining}  # Fixed the rewrite for auth service
+            - RewritePath=/auth/v3/api-docs, /v3/api-docs  # Fix for Swagger UI
 
+# SPRINGDOC CONFIGURATION (Swagger UI for All Services via API Gateway)
 springdoc:
   swagger-ui:
     urls:

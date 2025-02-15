@@ -81,7 +81,7 @@ public class AuthService {
         } catch (Exception e) {
             LOGGER.error("Unexpected error during collector login: {}", e.getMessage(), e);
             response.setStatus(Trame.ResponseCode.SERVER_ERROR);
-            response.setMessage("An unexpected error occurred");
+            response.setMessage(e.getMessage());
         }
 
         return response;

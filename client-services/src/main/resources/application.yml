@@ -3,7 +3,13 @@ server:
 
 spring:
   application:
-    name: client-SERVICE
+    name: CLIENT-SERVICE
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
   webflux:
     cors:
       allowed-origins:
@@ -18,3 +24,7 @@ springdoc:
     enabled: true
   swagger-ui:
     enabled: true
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty.http.client: DEBUG

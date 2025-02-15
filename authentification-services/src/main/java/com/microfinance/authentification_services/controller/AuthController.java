@@ -10,7 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8080", maxAge = 3600, allowCredentials = "true")
+//@CrossOrigin(origins = "http://localhost:8080", maxAge = 3600, allowCredentials = "true")
+@CrossOrigin(origins = "*", maxAge = 3600)
 @Tag(name = "Authentication Services", description = "APIs for managing access and authentication to the system")
 @RequestMapping("/auth")
 public class AuthController {
