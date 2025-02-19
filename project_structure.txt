@@ -1,0 +1,18 @@
+Case	Scenario	Expected Behavior
+Case 1	Login Request (/auth/loginCollector)	Any request to /auth/** should be allowed without token validation. Upon successful authentication, a token should be generated via Keycloak and returned to the client.
+Case 2	Accessing Secured Microservices (/client/allClientByCodage/02)	Any request not under /auth/** should be intercepted. The API Gateway should check for a valid Bearer Token in the request header and validate it before forwarding the request to the appropriate microservice.
+Case 3	Swagger UI Access (/swagger-ui.html)	Swagger UI access should be restricted. If a user accesses it, they should be prompted for Keycloak login (Username + Password, not Bearer Token) before gaining access.
+
+this is my project architecture 
+open-api-for-workflow-in-MFIs/
++-- api-gateway/                # API Gateway (Handles Security & Routing)
++-- auth-services/              # Authentication Service (Handles Login)
++-- clients-services/           # Clients Microservice
++-- transactions-services/      # Transactions Microservice
++-- reporting-services/         # Reporting Microservice
++-- loans-services/             # Loans Microservice
++-- users-services/             # Users Microservice
++-- register/                   # Register Microservice
+
+please give all the code amd class nessary to furfill the three case scenario take all you time nessary to do that first start with the firsst given step by step explanation and later go to step two or case two with a step by explanation and conclude with step three .thank you to please give all code and when you dont understanf feel free to mask the keycloak is running on port 8180 so outline all poosible code 
+
