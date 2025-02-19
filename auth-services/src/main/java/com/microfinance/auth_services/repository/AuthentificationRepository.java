@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AuthentificationRepository extends JpaRepository<Collecteur, String> {
-    @Query("SELECT u FROM Collecteur u WHERE LOWER(u.num) =LOWER(:num)")
+    @Query("SELECT u FROM Collecteur u WHERE LOWER(u.num) = LOWER(:num)")
     Collecteur findCollectorByNum(@Param("num") String num);
 }
+
+

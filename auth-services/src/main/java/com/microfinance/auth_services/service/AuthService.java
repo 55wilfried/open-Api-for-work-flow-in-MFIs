@@ -3,6 +3,7 @@ package com.microfinance.auth_services.service;
 import com.microfinance.auth_services.dto.CollectUser;
 import com.microfinance.auth_services.dto.Collecteur;
 import com.microfinance.auth_services.dto.LoginRequest;
+import com.microfinance.auth_services.dto.LoginResponse;
 import com.microfinance.auth_services.repository.AuthentificationRepository;
 import com.microfinance.auth_services.repository.AuthentificationRepositoryUSer;
 import com.microfinance.auth_services.utils.APIResponse;
@@ -14,9 +15,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 public class AuthService {
 
+    String token ="";
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthService.class);
 
     @Autowired
@@ -25,17 +29,33 @@ public class AuthService {
     @Autowired
     private AuthentificationRepositoryUSer authentificationRepositoryUSer;
 
+
+
+
     @Autowired
-    private JwtService jwtService;
+    private KeycloakService keycloakService;
 
-    public String generateToken(String username) {
-        LOGGER.info("Generating token for user: {}", username);
-        return jwtService.generateToken(username);
-    }
+    public APIResponse loginCollectorALL(LoginRequest loginRequest , int request) {
+        APIResponse response = new APIResponse();
 
-    public void validateToken(String token) {
-        LOGGER.info("Validating token: {}", token);
-        jwtService.validateToken(token);
+        try {
+            LoginResponse loginResponse   =   keycloakService.getToken(loginRequest);
+            if(Objects.equals(loginResponse.getStatusCode(), "200")){
+                if(request == 1){
+                    token = loginResponse.getAccessToken();
+                    response =   loginCollector(loginRequest);
+                } else if (request == 2) {
+                    token = loginResponse.getAccessToken();
+                    response =    loginUser(loginRequest);
+                }
+            }
+
+        } catch (Exception e) {
+            response.setStatus(350);
+            response.setMessage("Invalid credentials KeyCloak");
+        }
+
+        return response;
     }
 
     public APIResponse loginCollector(LoginRequest loginRequest) {
@@ -67,7 +87,9 @@ public class AuthService {
             }
 
             LOGGER.info("Generating authentication token for collector: {}", loginRequest.getUserName());
-            collecteur.setKey(generateToken(loginRequest.getUserName()));
+
+
+            collecteur.setKey(token);
 
             LOGGER.info("Collector login successful: {}", loginRequest.getUserName());
             response.setData(collecteur);
@@ -116,7 +138,7 @@ public class AuthService {
             }
 
             LOGGER.info("Generating authentication token for user: {}", loginRequest.getUserName());
-            user.setKey(generateToken(loginRequest.getUserName()));
+            user.setKey(token);
 
             LOGGER.info("User login successful: {}", loginRequest.getUserName());
             response.setData(user);

@@ -10,7 +10,6 @@
         <module name="registry" />
         <module name="reporting-services" />
         <module name="users-services" />
-        <module name="authentification-services" />
         <module name="transaction-services" />
         <module name="client-services" />
         <module name="loans-services" />
@@ -20,6 +19,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="authentification-services" target="21" />
       <module name="registry" target="17" />
     </bytecodeTargetLevel>
   </component>

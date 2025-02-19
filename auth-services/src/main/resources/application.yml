@@ -4,17 +4,26 @@ server:
 spring:
   application:
     name: AUTH-SERVICE
+
+
+keycloak:
+  auth-server-url: http://localhost:8180
+  realm: microfinance-realm
+  client-id: microfinance-client
+  client-secret: GPPofSny6rec6h69mS4h7f6UDkFbXQza
+  use-resource-role-mappings: true
+  bearer-only: false
+  ssl-required: none
+
+
+
+
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
   instance:
     prefer-ip-address: true
-
-  security:
-    user:
-      name: admin
-      password: admin
   webflux:
     cors:
       allowed-origins:
@@ -23,19 +32,9 @@ eureka:
       allowed-methods: "GET,POST,PUT,DELETE"
       allowed-headers: "*"
       allow-credentials: true
-  datasource:
-    url: jdbc:sqlserver://localhost:1433;databaseName=banque;encrypt=true;trustServerCertificate=true
-    username: API
-    password: SA@1T3CH
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
 
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        physical_naming_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+
 
 logging:
   level:

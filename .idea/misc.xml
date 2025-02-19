@@ -26,6 +26,7 @@
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/authentification-services/pom.xml" />
         <option value="$PROJECT_DIR$/registry /pom.xml" />
       </set>
     </option>
