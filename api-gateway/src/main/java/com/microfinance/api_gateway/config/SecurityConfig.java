@@ -11,19 +11,18 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 @Configuration
 @EnableWebFluxSecurity
 public class SecurityConfig {
-
-    @Bean
-    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
-        http
-                .csrf(csrf -> csrf.disable())
-                .authorizeExchange()
-                .pathMatchers("/auth/**").permitAll()  // Allow authentication requests
-                .anyExchange().authenticated()  // Secure all other routes
-                .and()
-                .oauth2ResourceServer()
-                .jwt();
-        return http.build();
-    }
+        @Bean
+        public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
+            http
+                    .csrf(csrf -> csrf.disable())
+                    .authorizeExchange()
+                    .pathMatchers("/auth/**").permitAll()  // Allow authentication requests
+                    .anyExchange().authenticated()  // Secure all other routes
+                    .and()
+                    .oauth2ResourceServer()
+                    .jwt();
+            return http.build();
+        }
 
 //yes
     @Bean

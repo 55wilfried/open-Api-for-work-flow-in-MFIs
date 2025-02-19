@@ -25,11 +25,13 @@ public class AuthenticationFilter implements WebFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
+        String path = request.getURI().getPath();
 
-        // Allow /auth/** requests without token validation
-        if (request.getURI().getPath().startsWith("/auth/")) {
+        // Allow /auth/**
+        if (path.startsWith("/auth/") ) {
             return chain.filter(exchange);
         }
+
 
         // Validate JWT Token
         String authHeader = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
@@ -42,6 +44,7 @@ public class AuthenticationFilter implements WebFilter {
                 .flatMap(jwt -> chain.filter(exchange))
                 .onErrorResume(JwtException.class, e -> unauthorizedResponse(exchange));
     }
+
 
     private Mono<Void> unauthorizedResponse(ServerWebExchange exchange) {
         ServerHttpResponse response = exchange.getResponse();
