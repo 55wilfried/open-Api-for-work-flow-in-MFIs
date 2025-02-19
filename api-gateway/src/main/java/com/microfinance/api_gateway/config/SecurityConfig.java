@@ -25,6 +25,7 @@ public class SecurityConfig {
         return http.build();
     }
 
+//yes
     @Bean
     public ReactiveJwtDecoder reactiveJwtDecoder() {
         return NimbusReactiveJwtDecoder.withJwkSetUri("http://localhost:8180/realms/microfinance-realm/protocol/openid-connect/certs").build();
