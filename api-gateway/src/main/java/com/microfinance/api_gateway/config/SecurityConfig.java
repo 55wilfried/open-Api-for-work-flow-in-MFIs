@@ -17,7 +17,11 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeExchange()
-                .pathMatchers("/auth/**").permitAll()  // Allow authentication requests
+                .pathMatchers("/auth/**", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/webjars/**")
+                .permitAll() // Allow swagger UI and documentation access without JWT
+                .pathMatchers("/client/v3/api-docs/**", "/users/v3/api-docs/**", "/transactions/v3/api-docs/**",
+                        "/reports/v3/api-docs/**", "/loan/v3/api-docs/**")
+                .permitAll() // Allow Swagger docs for other services
                 .anyExchange().authenticated()  // Secure all other routes
                 .and()
                 .oauth2ResourceServer()
@@ -25,7 +29,9 @@ public class SecurityConfig {
         return http.build();
     }
 
-//yes
+
+
+    //yes
     @Bean
     public ReactiveJwtDecoder reactiveJwtDecoder() {
         return NimbusReactiveJwtDecoder.withJwkSetUri("http://localhost:8180/realms/microfinance-realm/protocol/openid-connect/certs").build();

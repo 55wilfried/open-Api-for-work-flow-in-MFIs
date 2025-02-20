@@ -26,12 +26,21 @@ public class AuthenticationFilter implements WebFilter {
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
 
-        // Allow /auth/** requests without token validation
-        if (request.getURI().getPath().startsWith("/auth/")) {
-            return chain.filter(exchange);
+        // Allow API documentation paths for all services (swagger-ui, v3/api-docs)
+        if (request.getURI().getPath().startsWith("/auth/") ||
+                request.getURI().getPath().startsWith("/swagger-ui.html") ||
+                request.getURI().getPath().startsWith("/v3/api-docs/") ||
+                request.getURI().getPath().startsWith("/swagger-ui/**") ||
+                request.getURI().getPath().startsWith("/client/v3/api-docs") ||
+                request.getURI().getPath().startsWith("/users/v3/api-docs") ||
+                request.getURI().getPath().startsWith("/transactions/v3/api-docs") ||
+                request.getURI().getPath().startsWith("/reports/v3/api-docs") ||
+                request.getURI().getPath().startsWith("/loan/v3/api-docs")) {
+            return chain.filter(exchange);  // Allow all the swagger doc requests
         }
 
-        // Validate JWT Token
+
+        // Validate JWT Token for all other requests
         String authHeader = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return unauthorizedResponse(exchange);
