@@ -2,6 +2,7 @@ package com.microfinance.client_services.controller;
 
 import com.microfinance.client_services.services.ClientServices;
 import com.microfinance.client_services.utils.APIResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/client")
+@SecurityRequirement(name = "keycloak")
 public class ClientController {
 
     @Autowired

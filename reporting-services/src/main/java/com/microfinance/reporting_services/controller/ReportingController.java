@@ -2,6 +2,7 @@ package com.microfinance.reporting_services.controller;
 
 import com.microfinance.reporting_services.service.ReportingServices;
 import com.microfinance.reporting_services.utils.APIResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 //@CrossOrigin(origins = "http://localhost:8080", maxAge = 3600, allowCredentials = "true")
 @CrossOrigin(origins = "*", maxAge = 3600)
+@SecurityRequirement(name = "keycloak85")
 @RequestMapping("/reports")
 @RestController
 public class ReportingController {

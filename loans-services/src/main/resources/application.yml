@@ -4,6 +4,23 @@ server:
 spring:
   application:
     name: LOAN-SERVICE
+
+
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            provider: keycloak
+            client-id: microfinance-client
+            client-secret: GPPofSny6rec6h69mS4h7f6UDkFbXQza
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://localhost:8086/login/oauth2/code/keycloak"
+
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8180/realms/microfinance-realm
+
 eureka:
   client:
     service-url:

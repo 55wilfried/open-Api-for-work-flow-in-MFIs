@@ -1,27 +1,23 @@
-package com.microfinance.api_gateway.config;
+package com.microfinance.client_services.config;
+
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.servers.Server;
-import org.springframework.context.annotation.Bean;
+import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.List;
-
-
-/*@OpenAPIDefinition(
-        info = @io.swagger.v3.oas.annotations.info.Info(
-                title = "API Gateway",
+@OpenAPIDefinition(
+        info = @Info(
+                title = "Clients Services",
                 version = "1.0",
-                description = "API Gateway for Microservices"
+                description = "API documentation for the MFI Clients Service"
         ),
-        security = @SecurityRequirement(name = "keycloak80"),
+        security = @SecurityRequirement(name = "keycloak"),
         servers = {
-                @io.swagger.v3.oas.annotations.servers.Server(url = "http://localhost:8080", description = "MFI Clients Services")
+                @Server(url = "/", description = "MFI Clients Services")
         }
 )
 @SecurityScheme(
@@ -35,19 +31,7 @@ import java.util.List;
                         tokenUrl = "http://localhost:8180/realms/microfinance-realm/protocol/openid-connect/token"
                 )
         )
-)*/
+)
 @Configuration
 public class SwaggerConfig {
-
-    @Bean
-    public OpenAPI customOpenAPI() {
-        return new OpenAPI()
-                .info(new Info().title("API Gateway")
-                        .version("1.0")
-                        .description("API Gateway for Microservices"))
-                .servers(List.of(new Server().url("http://localhost:8080").description("API Gateway Server")));
-    }
-
 }
-
-

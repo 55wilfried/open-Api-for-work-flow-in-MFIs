@@ -5,11 +5,36 @@ spring:
   application:
     name: api-gateway
 
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8180/realms/microfinance-realm
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          keycloak:
+#            provider: keycloak
+#            client-id: microfinance-client
+#            client-secret: GPPofSny6rec6h69mS4h7f6UDkFbXQza
+#            authorization-grant-type: authorization_code
+#            redirect-uri: "http://localhost:8082/login/oauth2/code/keycloak80"
+#
+#
+#        provider:
+#          keycloak:
+#            issuer-uri: http://localhost:8180/realms/microfinance-realm
+
+  webflux:
+    cors:
+      allowed-origins:
+        - "http://localhost:8080"
+        - "http://localhost:8083"
+        - "http://localhost:8082"
+      allowed-methods: "GET,POST,PUT,DELETE"
+      allowed-headers: "*"
+      allow-credentials: true
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          issuer-uri: http://localhost:8180/realms/microfinance-realm
 
   management:
     endpoints:
@@ -28,6 +53,8 @@ spring:
             - Path=/client/**
           filters:
             - RewritePath=/client/v3/api-docs, /v3/api-docs  # Fix for Swagger UI
+            - AddRequestHeader=X-Forwarded-Prefix, /client
+
 
         # Users Service
         - id: users-services
@@ -36,6 +63,7 @@ spring:
             - Path=/users/**
           filters:
             - RewritePath=/users/v3/api-docs, /v3/api-docs  # Fix for Swagger UI
+            - AddRequestHeader=X-Forwarded-Prefix, /users
 
         # Transactions Service
         - id: transactions-service
@@ -72,6 +100,7 @@ spring:
 # SPRINGDOC CONFIGURATION (Swagger UI for All Services via API Gateway)
 springdoc:
   swagger-ui:
+    path: /swagger-ui.html
     urls:
       - name: Clients Service
         url: /client/v3/api-docs
@@ -85,7 +114,7 @@ springdoc:
         url: /loan/v3/api-docs
       - name: Auth Service
         url: /auth/v3/api-docs
-    path: /swagger-ui.html
+
 
   api-docs:
     enabled: true
@@ -93,7 +122,12 @@ springdoc:
     swagger-ui:
      enabled: true
 
+
 logging:
   level:
     org.springframework.cloud.gateway: DEBUG
     reactor.netty.http.client: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.boot: DEBUG
+

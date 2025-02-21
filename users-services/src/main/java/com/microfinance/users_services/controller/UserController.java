@@ -4,18 +4,19 @@ import com.microfinance.users_services.dto.CollectUser;
 import com.microfinance.users_services.service.UserServices;
 import com.microfinance.users_services.utils.APIResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-
 @RequestMapping("/users")
 //@CrossOrigin(origins = {"*"}, maxAge = 3600, allowCredentials = "true")
 //@CrossOrigin(origins = "http://localhost:8080", maxAge = 3600, allowCredentials = "true")
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Tag(name = "User Management Services", description = "APIs for managing Collect Users and Collectors")
+@SecurityRequirement(name = "keycloak83")
 public class UserController {
 
     @Autowired
