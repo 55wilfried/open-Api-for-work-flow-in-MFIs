@@ -6,6 +6,7 @@ import com.microfinance.auth_services.service.AuthService;
 import com.microfinance.auth_services.service.KeycloakService;
 import com.microfinance.auth_services.utils.APIResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,6 +22,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:8080", maxAge = 3600, allowCredentials = "true")
 @Tag(name = "Authentication Services", description = "APIs for managing access and authentication to the system")
 @RequestMapping("/auth")
+@SecurityRequirement(name = "keycloak81")
 public class AuthController {
 
 

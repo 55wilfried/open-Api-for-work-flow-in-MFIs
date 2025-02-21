@@ -8,6 +8,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.authorization.AuthorizationDecision;
 
 @Configuration
 @EnableWebSecurity
@@ -16,21 +17,22 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Disable CSRF for APIs
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/auth/**",
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/swagger-resources/**",
-                                "/webjars/**"
-                        ).permitAll() // Allow public access to login and Swagger
-                        .anyRequest().authenticated() // Protect all other endpoints
+                        .requestMatchers("/auth/**").permitAll() // Publicly accessible login endpoints
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**")
+                        .access((authentication, context) -> {
+                            String forwardedFromGateway = context.getRequest().getHeader("X-Forwarded-For");
+                            return forwardedFromGateway != null
+                                    ? new AuthorizationDecision(true) // Allow when coming from API Gateway
+                                    : new AuthorizationDecision(false); // Deny otherwise
+                        })
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Stateless session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt()); // Enable JWT authentication
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt());
 
         return http.build();
     }

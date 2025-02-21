@@ -5,6 +5,20 @@ spring:
   application:
     name: AUTH-SERVICE
 
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            provider: keycloak
+            client-id: microfinance-client
+            client-secret: GPPofSny6rec6h69mS4h7f6UDkFbXQza
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://localhost:8081/login/oauth2/code/keycloak81"
+
+      provider:
+        keycloak:
+          issuer-uri: http://localhost:8180/realms/microfinance-realm
 
 keycloak:
   auth-server-url: http://localhost:8180
@@ -15,26 +29,21 @@ keycloak:
   bearer-only: false
   ssl-required: none
 
-
-
-
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
   instance:
     prefer-ip-address: true
-  webflux:
-    cors:
-      allowed-origins:
-        - "http://localhost:8080"
-        - "http://localhost:8081"
-      allowed-methods: "GET,POST,PUT,DELETE"
-      allowed-headers: "*"
-      allow-credentials: true
 
-
-
+webflux:
+  cors:
+    allowed-origins:
+      - "http://localhost:8080"
+      - "http://localhost:8081"
+    allowed-methods: "GET,POST,PUT,DELETE"
+    allowed-headers: "*"
+    allow-credentials: true
 
 logging:
   level:

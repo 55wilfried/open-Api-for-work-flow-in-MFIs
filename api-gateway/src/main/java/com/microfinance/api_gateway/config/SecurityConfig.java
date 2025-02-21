@@ -18,13 +18,13 @@ public class SecurityConfig {
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
-        logger.info("Configuring Security...");
+        logger.info("Configuring Security for API Gateway...");
 
         http.csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchange -> exchange
                         .pathMatchers("/auth/**", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/webjars/**")
                         .permitAll()
-                        .pathMatchers("/client/v3/api-docs/**", "/users/v3/api-docs/**", "/transactions/v3/api-docs/**",
+                        .pathMatchers("/auth/v3/api-docs/**","/client/v3/api-docs/**", "/users/v3/api-docs/**", "/transactions/v3/api-docs/**",
                                 "/reports/v3/api-docs/**", "/loan/v3/api-docs/**")
                         .permitAll()
                         .anyExchange().authenticated()

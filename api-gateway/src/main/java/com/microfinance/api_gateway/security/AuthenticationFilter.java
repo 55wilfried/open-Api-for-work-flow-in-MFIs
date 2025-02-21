@@ -35,6 +35,7 @@ public class AuthenticationFilter implements WebFilter {
                 request.getURI().getPath().startsWith("/v3/api-docs/") ||
                 request.getURI().getPath().startsWith("/swagger-ui/") ||
                 request.getURI().getPath().startsWith("/webjars/") ||  // <-- Add this line
+                request.getURI().getPath().startsWith("/auth/v3/api-docs") ||
                 request.getURI().getPath().startsWith("/client/v3/api-docs") ||
                 request.getURI().getPath().startsWith("/users/v3/api-docs") ||
                 request.getURI().getPath().startsWith("/transactions/v3/api-docs") ||
