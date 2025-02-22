@@ -13,7 +13,7 @@ spring:
           keycloak:
             provider: keycloak
             client-id: microfinance-client
-            client-secret: GPPofSny6rec6h69mS4h7f6UDkFbXQza
+            client-secret: Y75LiyvIS2urPe8HR4N0TREWe8BdHJte
             authorization-grant-type: authorization_code
             redirect-uri: "http://localhost:8082/login/oauth2/code/keycloak"
 

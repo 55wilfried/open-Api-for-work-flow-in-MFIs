@@ -52,7 +52,7 @@ public class AuthService {
 
         } catch (Exception e) {
             response.setStatus(350);
-            response.setMessage("Invalid credentials KeyCloak");
+            response.setMessage(e.getMessage());
         }
 
         return response;
