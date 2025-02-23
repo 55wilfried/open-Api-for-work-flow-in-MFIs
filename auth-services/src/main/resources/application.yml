@@ -12,7 +12,7 @@ spring:
           keycloak:
             provider: keycloak
             client-id: microfinance-client
-            client-secret: Y75LiyvIS2urPe8HR4N0TREWe8BdHJte
+            client-secret: lP2RcjBBN3dYIorv7tYPacRfC50FGEG4
             authorization-grant-type: authorization_code
             redirect-uri: "http://localhost:8081/login/oauth2/code/keycloak81"
 
@@ -24,7 +24,7 @@ keycloak:
   auth-server-url: http://localhost:8180
   realm: microfinance-realm
   client-id: microfinance-client
-  client-secret: Y75LiyvIS2urPe8HR4N0TREWe8BdHJte
+  client-secret: lP2RcjBBN3dYIorv7tYPacRfC50FGEG4
   use-resource-role-mappings: true
   bearer-only: false
   ssl-required: none

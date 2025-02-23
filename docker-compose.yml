@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+  # API Gateway
+  api-gateway:
+    build:
+      context: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - auth-services
+    networks:
+      - mfi-net
+
+  # Auth Service
+  auth-services:
+    build:
+      context: ./auth-services
+    container_name: auth-services
+    ports:
+      - "8081:8081"
+    networks:
+      - mfi-net
+
+  # Clients Service
+  clients-services:
+    build:
+      context: ./clients-services
+    container_name: clients-services
+    ports:
+      - "8082:8082"
+    networks:
+      - mfi-net
+
+  # Users Service
+  users-services:
+    build:
+      context: ./users-services
+    container_name: users-services
+    ports:
+      - "8083:8083"
+    networks:
+      - mfi-net
+
+  # Transactions Service
+  transactions-services:
+    build:
+      context: ./transactions-services
+    container_name: transactions-services
+    ports:
+      - "8084:8084"
+    networks:
+      - mfi-net
+
+  # Reporting Service
+  reporting-services:
+    build:
+      context: ./reporting-services
+    container_name: reporting-services
+    ports:
+      - "8085:8085"
+    networks:
+      - mfi-net
+
+  # Loans Service
+  loans-services:
+    build:
+      context: ./loans-services
+    container_name: loans-services
+    ports:
+      - "8086:8086"
+    networks:
+      - mfi-net
+
+  # Eureka / Register Service
+  register:
+    build:
+      context: ./register
+    container_name: register
+    ports:
+      - "8761:8761"
+    networks:
+      - mfi-net
+
+networks:
+  mfi-net:
+    external: true
