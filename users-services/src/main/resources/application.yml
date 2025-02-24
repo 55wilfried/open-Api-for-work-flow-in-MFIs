@@ -14,10 +14,11 @@ spring:
               client-id: microfinance-client
               client-secret: lP2RcjBBN3dYIorv7tYPacRfC50FGEG4
               authorization-grant-type: authorization_code
-              redirect-uri: "http://localhost:8083/login/oauth2/code/keycloak83"
+              redirect-uri: "http://localhost:8084/login/oauth2/code/keycloak84"
         provider:
           keycloak:
             issuer-uri: http://keycloak:8080/realms/microfinance-realm
+
 
 
   instance:

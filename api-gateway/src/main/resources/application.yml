@@ -22,9 +22,6 @@ spring:
 
 
 
-
-
-
   webflux:
     cors:
       allowed-origins:
@@ -55,10 +52,6 @@ spring:
             - RewritePath=/client/v3/api-docs, /v3/api-docs  # Fix for Swagger UI
             - AddRequestHeader=X-Forwarded-Prefix, /client
 
-
-
-
-
         # Users Service
         - id: users-services
           uri: lb://USERS-SERVICES
@@ -66,7 +59,7 @@ spring:
             - Path=/users/**
           filters:
             - RewritePath=/users/v3/api-docs, /v3/api-docs  # Fix for Swagger UI
-          #  - AddRequestHeader=X-Forwarded-Prefix, /users
+            #  - AddRequestHeader=X-Forwarded-Prefix, /users
             - RewritePath=/client/(?<remaining>.*), /${remaining}
             - AddRequestHeader=X-Forwarded-Prefix, /client
 
@@ -126,7 +119,7 @@ springdoc:
     enabled: true
     path: /v3/api-docs
     swagger-ui:
-     enabled: true
+      enabled: true
 
 
 logging:

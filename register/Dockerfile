@@ -9,13 +9,7 @@ LABEL authors="F-Wilfried"
 ENV SPRING_PROFILES_ACTIVE=docker
 
 # Create a non-root user for security
-RUN useradd -m appuser
-
-
-RUN chown -R appuser:appuser /app
-
-# Switch to the non-root user
-USER appuser
+WORKDIR /app
 
 # Set the working directory inside the container
 WORKDIR /app

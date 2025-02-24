@@ -10,15 +10,6 @@ LABEL authors="F-Wilfried"
 ENV SPRING_PROFILES_ACTIVE=docker
 
 # Create a non-root user for security
-RUN useradd -m appuser
-
-
-RUN chown -R appuser:appuser /app
-
-# Switch to the non-root user
-USER appuser
-
-# Set the working directory inside the container
 WORKDIR /app
 
 COPY target/auth-services-0.0.1-SNAPSHOT.jar app.jar

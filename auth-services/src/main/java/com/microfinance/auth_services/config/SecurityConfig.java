@@ -1,5 +1,7 @@
 package com.microfinance.auth_services.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,8 +16,11 @@ import org.springframework.security.authorization.AuthorizationDecision;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        logger.info("Configuring Security for Auth services...");
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
@@ -34,11 +39,14 @@ public class SecurityConfig {
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt());
 
+        logger.info("Security Config Loaded Successfully auth !");
+
         return http.build();
     }
 
     @Bean
     public JwtDecoder jwtDecoder() {
+        logger.info("Loading JWT Decoder...");
         return NimbusJwtDecoder.withJwkSetUri("http://keycloak:8080/realms/microfinance-realm/protocol/openid-connect/certs").build();
     }
 }
