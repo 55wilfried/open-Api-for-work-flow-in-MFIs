@@ -7,7 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 class TransactionServicesApplicationTests {
 
 	@Test
-	void contextLoads() {
+	void testGetAllCollecteur() {
+		// Write test logic here
 	}
 
 }

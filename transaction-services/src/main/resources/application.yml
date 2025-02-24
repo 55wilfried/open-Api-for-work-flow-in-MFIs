@@ -1,11 +1,6 @@
 server:
   port: 8084
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-  instance:
-    prefer-ip-address: true
+
 
 spring:
   application:
@@ -22,31 +17,29 @@ spring:
             client-secret: lP2RcjBBN3dYIorv7tYPacRfC50FGEG4
             authorization-grant-type: authorization_code
             redirect-uri: "http://localhost:8084/login/oauth2/code/keycloak84"
+      provider:
+        keycloak:
+          issuer-uri: http://keycloak:8080/realms/microfinance-realm
 
-        provider:
-          keycloak:
-            issuer-uri: http://localhost:8180/realms/microfinance-realm
+  eureka:
+    client:
+      serviceUrl:
+        defaultZone: http://register:8761/eureka/
 
-  webflux:
-    cors:
-      allowed-origins:
-        - "http://localhost:8080"
-        - "http://localhost:8084"
-      allowed-methods: "GET,POST,PUT,DELETE"
-      allowed-headers: "*"
-      allow-credentials: true
-#
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone : http://localhost:8761/eureka/
+    instance:
+      prefer-ip-address: true
+    webflux:
+      cors:
+        allowed-origins:
+          - "http://localhost:8080"
+          - "http://localhost:8083"
+        allowed-methods: "GET,POST,PUT,DELETE"
+        allowed-headers: "*"
+        allow-credentials: true
 
-springdoc:
-  api-docs:
-    enabled: true
-  swagger-ui:
-    enabled: true
-logging:
-  level:
-    org.springframework.cloud.gateway: DEBUG
-    reactor.netty.http.client: DEBUG
+
+  springdoc:
+    api-docs:
+      enabled: true
+    swagger-ui:
+      enabled: true

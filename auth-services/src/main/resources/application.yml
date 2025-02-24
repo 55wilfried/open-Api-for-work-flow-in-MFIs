@@ -15,13 +15,13 @@ spring:
             client-secret: lP2RcjBBN3dYIorv7tYPacRfC50FGEG4
             authorization-grant-type: authorization_code
             redirect-uri: "http://localhost:8081/login/oauth2/code/keycloak81"
-
       provider:
         keycloak:
-          issuer-uri: http://localhost:8180/realms/microfinance-realm
+          issuer-uri: http://keycloak:8080/realms/microfinance-realm
+
 
 keycloak:
-  auth-server-url: http://localhost:8180
+  auth-server-url: http://keycloak:8080
   realm: microfinance-realm
   client-id: microfinance-client
   client-secret: lP2RcjBBN3dYIorv7tYPacRfC50FGEG4
@@ -31,8 +31,9 @@ keycloak:
 
 eureka:
   client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
+    serviceUrl:
+      defaultZone: http://register:8761/eureka/
+
   instance:
     prefer-ip-address: true
 

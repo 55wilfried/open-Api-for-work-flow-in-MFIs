@@ -5,30 +5,24 @@ spring:
   application:
     name: USERS-SERVICES
 
-  security:
-    oauth2:
-      client:
-        registration:
-          keycloak:
-            provider: keycloak
-            client-id: microfinance-client
-            client-secret: lP2RcjBBN3dYIorv7tYPacRfC50FGEG4
-            authorization-grant-type: authorization_code
-            redirect-uri: "http://localhost:8082/login/oauth2/code/keycloak83"
-
+    security:
+      oauth2:
+        client:
+          registration:
+            keycloak:
+              provider: keycloak
+              client-id: microfinance-client
+              client-secret: lP2RcjBBN3dYIorv7tYPacRfC50FGEG4
+              authorization-grant-type: authorization_code
+              redirect-uri: "http://localhost:8083/login/oauth2/code/keycloak83"
         provider:
           keycloak:
-            issuer-uri: http://localhost:8180/realms/microfinance-realm
-
-
-
-
-
+            issuer-uri: http://keycloak:8080/realms/microfinance-realm
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://register:8761/eureka/
   instance:
     prefer-ip-address: true
   webflux:
@@ -40,12 +34,9 @@ eureka:
       allowed-headers: "*"
       allow-credentials: true
 
+
 springdoc:
   api-docs:
     enabled: true
   swagger-ui:
     enabled: true
-logging:
-  level:
-    org.springframework.cloud.gateway: DEBUG
-    reactor.netty.http.client: DEBUG

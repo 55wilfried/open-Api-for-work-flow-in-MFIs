@@ -29,7 +29,7 @@ import java.util.List;
         type = SecuritySchemeType.OAUTH2,
         scheme = "bearer",
         bearerFormat = "JWT",
-        flows = @io.swagger.v3.oas.annotations.security.OAuthFlows(
+       flows = @io.swagger.v3.oas.annotations.security.OAuthFlows(
                 authorizationCode = @io.swagger.v3.oas.annotations.security.OAuthFlow(
                         authorizationUrl = "http://localhost:8180/realms/microfinance-realm/protocol/openid-connect/auth",
                         tokenUrl = "http://localhost:8180/realms/microfinance-realm/protocol/openid-connect/token"

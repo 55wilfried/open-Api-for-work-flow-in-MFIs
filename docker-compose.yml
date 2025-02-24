@@ -8,8 +8,6 @@ services:
     container_name: api-gateway
     ports:
       - "8080:8080"
-    depends_on:
-      - auth-services
     networks:
       - mfi-net
 
@@ -24,10 +22,10 @@ services:
       - mfi-net
 
   # Clients Service
-  clients-services:
+  client-services:
     build:
-      context: ./clients-services
-    container_name: clients-services
+      context: ./client-services
+    container_name: client-services
     ports:
       - "8082:8082"
     networks:
@@ -44,10 +42,10 @@ services:
       - mfi-net
 
   # Transactions Service
-  transactions-services:
+  transaction-services:
     build:
-      context: ./transactions-services
-    container_name: transactions-services
+      context: ./transaction-services
+    container_name: transaction-services
     ports:
       - "8084:8084"
     networks:
@@ -82,6 +80,7 @@ services:
       - "8761:8761"
     networks:
       - mfi-net
+
 
 networks:
   mfi-net:

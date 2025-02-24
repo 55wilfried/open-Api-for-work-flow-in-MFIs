@@ -14,12 +14,24 @@ spring:
             client-id: microfinance-client
             client-secret: lP2RcjBBN3dYIorv7tYPacRfC50FGEG4
             authorization-grant-type: authorization_code
-            redirect-uri: "http://localhost:8082/login/oauth2/code/keycloak80"
+            redirect-uri: "http://localhost:8080/login/oauth2/code/keycloak80"
+      provider:
+        keycloak:
+          issuer-uri: http://keycloak:8080/realms/microfinance-realm
 
 
-        provider:
-          keycloak:
-            issuer-uri: http://localhost:8180/realms/microfinance-realm
+
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://register:8761/eureka/
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://register:8761/eureka/
+
+
 
   webflux:
     cors:
@@ -47,13 +59,16 @@ spring:
     gateway:
       routes:
         # Clients Service
-        - id: clients-service
+        - id: client-service
           uri: lb://CLIENT-SERVICE
           predicates:
             - Path=/client/**
           filters:
             - RewritePath=/client/v3/api-docs, /v3/api-docs  # Fix for Swagger UI
             - AddRequestHeader=X-Forwarded-Prefix, /client
+
+
+
 
 
         # Users Service
@@ -63,10 +78,12 @@ spring:
             - Path=/users/**
           filters:
             - RewritePath=/users/v3/api-docs, /v3/api-docs  # Fix for Swagger UI
-            - AddRequestHeader=X-Forwarded-Prefix, /users
+          #  - AddRequestHeader=X-Forwarded-Prefix, /users
+            - RewritePath=/client/(?<remaining>.*), /${remaining}
+            - AddRequestHeader=X-Forwarded-Prefix, /client
 
         # Transactions Service
-        - id: transactions-service
+        - id: transaction-service
           uri: lb://TRANSACTION-SERVICES
           predicates:
             - Path=/transactions/**
@@ -96,6 +113,7 @@ spring:
             - Path=/auth/**
           filters:
             - RewritePath=/auth/v3/api-docs, /v3/api-docs  # Fix for Swagger UI
+
 
 # SPRINGDOC CONFIGURATION (Swagger UI for All Services via API Gateway)
 springdoc:
