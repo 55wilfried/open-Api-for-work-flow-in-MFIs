@@ -20,10 +20,7 @@ spring:
           issuer-uri: http://keycloak:8080/realms/microfinance-realm
 
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://register:8761/eureka/
+
 
   instance:
     prefer-ip-address: true

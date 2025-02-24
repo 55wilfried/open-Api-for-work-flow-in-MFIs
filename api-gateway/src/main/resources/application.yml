@@ -21,15 +21,7 @@ spring:
 
 
 
-#eureka:
-#  client:
-#    serviceUrl:
-#      defaultZone: http://register:8761/eureka/
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://register:8761/eureka/
 
 
 
@@ -42,11 +34,7 @@ eureka:
       allowed-methods: "GET,POST,PUT,DELETE"
       allowed-headers: "*"
       allow-credentials: true
-#  security:
-#    oauth2:
-#      resourceserver:
-#        jwt:
-#          issuer-uri: http://localhost:8180/realms/microfinance-realm
+
 
   management:
     endpoints:

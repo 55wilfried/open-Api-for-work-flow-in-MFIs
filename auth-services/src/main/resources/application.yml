@@ -29,10 +29,6 @@ keycloak:
   bearer-only: false
   ssl-required: none
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://register:8761/eureka/
 
   instance:
     prefer-ip-address: true
