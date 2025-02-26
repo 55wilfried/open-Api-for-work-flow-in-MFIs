@@ -10,6 +10,8 @@ services:
       - "8080:8080"
     networks:
       - mfi-net
+    depends_on:
+      - register
 
   # Auth Service
   auth-services:
@@ -20,6 +22,8 @@ services:
       - "8081:8081"
     networks:
       - mfi-net
+    depends_on:
+      - register
 
   # Clients Service
   client-services:
@@ -30,6 +34,14 @@ services:
       - "8082:8082"
     networks:
       - mfi-net
+    volumes:
+      - ./client-services/src/main/resources/application-docker.properties:/app/resources/application-docker.properties
+    depends_on:
+      - kafka
+      - register
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+
 
   # Users Service
   users-services:
@@ -40,6 +52,8 @@ services:
       - "8083:8083"
     networks:
       - mfi-net
+    depends_on:
+      - register
 
   # Transactions Service
   transaction-services:
@@ -50,6 +64,8 @@ services:
       - "8084:8084"
     networks:
       - mfi-net
+    depends_on:
+      - register
 
   # Reporting Service
   reporting-services:
@@ -60,6 +76,8 @@ services:
       - "8085:8085"
     networks:
       - mfi-net
+    depends_on:
+      - register
 
   # Loans Service
   loans-services:
@@ -70,6 +88,8 @@ services:
       - "8086:8086"
     networks:
       - mfi-net
+    depends_on:
+      - register
 
   # Eureka / Register Service
   register:
@@ -80,6 +100,94 @@ services:
       - "8761:8761"
     networks:
       - mfi-net
+
+  # Zookeeper
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "127.0.0.1:5004:2181"
+    networks:
+      - mfi-net
+
+  # Kafka
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,INTERNAL://kafka:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,INTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - mfi-net
+
+  # Kafka UI
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    depends_on:
+      - kafka
+    ports:
+      - "8090:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+    networks:
+      - mfi-net
+
+
+  # Prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    hostname: prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - mfi-net
+    ports:
+      - "9090:9090"
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+
+  # Grafana
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: "admin"
+    networks:
+      - mfi-net
+    ports:
+      - "127.0.0.1:3073:3000"
+
+
+  kafka-exporter:
+    image: danielqsj/kafka-exporter:latest
+    container_name: kafka-exporter
+    ports:
+      - "9308:9308"
+    environment:
+      KAFKA_BROKER: kafka:9092
+    networks:
+      - mfi-net
+
 
 
 networks:

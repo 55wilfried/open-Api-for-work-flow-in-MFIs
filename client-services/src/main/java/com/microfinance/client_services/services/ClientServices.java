@@ -1,7 +1,9 @@
 package com.microfinance.client_services.services;
 
 import com.microfinance.client_services.clientRepository.ClientRepository;
+import com.microfinance.client_services.kafka.FailedRequestProducer;
 import com.microfinance.client_services.models.ClientCollecte;
+import com.microfinance.client_services.models.FailedRequest;
 import com.microfinance.client_services.utils.APIResponse;
 import com.microfinance.client_services.utils.CrudOperationException;
 import com.microfinance.client_services.utils.Trame;
@@ -16,7 +18,10 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @CrossOrigin(origins = "http://localhost:8080", maxAge = 3600, allowCredentials = "true")
@@ -26,6 +31,17 @@ public class ClientServices {
     @Autowired
     private ClientRepository clientRepository;
     ClientCollecte clientCollecte = new ClientCollecte();
+
+    private void logFailure(String methodName, List<String> payload, Exception e) {
+        FailedRequest failedRequest = new FailedRequest(methodName.toLowerCase(), payload, e.getMessage());
+        failedRequestProducer.sendFailedRequest(failedRequest);
+    }
+
+
+
+
+    @Autowired
+    private FailedRequestProducer failedRequestProducer;
 
     /**
      * Get all clients.
@@ -57,6 +73,7 @@ public class ClientServices {
                 throw new CrudOperationException("The List is Empty", Trame.ResponseCode.NOT_FOUND);
             }
         }catch (CrudOperationException e){
+            logFailure("getAllClients", Collections.singletonList(""), e);
             resp.setStatus(e.getResponse().getStatus());
             resp.setMessage(e.getResponse().getMessage());
         }
@@ -93,6 +110,7 @@ public class ClientServices {
                 throw new CrudOperationException("The List is Empty", Trame.ResponseCode.NOT_FOUND);
             }
         }catch (CrudOperationException e){
+            logFailure("getAllClientByCol", Collections.singletonList(numcol), e);
             resp.setStatus(e.getResponse().getStatus());
             resp.setMessage(e.getResponse().getMessage());
         }
@@ -129,6 +147,7 @@ public class ClientServices {
                 throw new CrudOperationException("The List is Empty", Trame.ResponseCode.NOT_FOUND);
             }
         }catch (CrudOperationException e){
+            logFailure("getAllClientByCodage", Collections.singletonList(codage), e);
             resp.setStatus(e.getResponse().getStatus());
             resp.setMessage(e.getResponse().getMessage());
         }
@@ -155,21 +174,31 @@ public class ClientServices {
     public APIResponse getClientById(String num) {
         APIResponse resp = new APIResponse();
         try {
-            ClientCollecte collecte =  clientRepository.findByNum(num);
-            if (collecte != null){
+            // Assuming findByNum returns Optional<ClientCollecte>
+            Optional<ClientCollecte> collecteOpt = clientRepository.findByNum(num);
+
+            if (collecteOpt.isPresent()) {
+                ClientCollecte collecte = collecteOpt.get();
                 resp.setData(collecte);
                 resp.setStatus(Trame.ResponseCode.SUCCESS);
                 resp.setMessage("SUCCESS");
-                return  resp;
-            }else{
-                throw new CrudOperationException("The Client not found ", Trame.ResponseCode.NOT_FOUND);
+            } else {
+                // If the client is not found, throw a custom exception
+                throw new CrudOperationException("The Client not found", Trame.ResponseCode.NOT_FOUND);
             }
-        } catch (CrudOperationException e){
+        } catch (CrudOperationException e) {
+            logFailure("getClientById", Collections.singletonList(num), e);
             resp.setStatus(e.getResponse().getStatus());
             resp.setMessage(e.getResponse().getMessage());
+        } catch (Exception e) {
+            // Handle any other unexpected exceptions
+            logFailure("getClientById", Collections.singletonList(num), e);
+            resp.setStatus(Trame.ResponseCode.SERVER_ERROR);
+            resp.setMessage("An unexpected error occurred");
         }
-        return  resp;
+        return resp;
     }
+
 
     /**
      * Get client by client name.
@@ -189,23 +218,32 @@ public class ClientServices {
             }
     )
     public APIResponse getClientByName(String name) {
+        LOGGER.info("Request to find client by name: " + name);  // Adding more detailed logging
         APIResponse resp = new APIResponse();
         try {
-            ClientCollecte collecte = clientRepository.findByName(name);
-            if (collecte != null){
-                resp.setData(collecte);
+            Optional<ClientCollecte> optionalCollecte = clientRepository.findByName(name);  // Returns Optional<ClientCollecte>
+            LOGGER.info("Client found by name: " + optionalCollecte.orElse(null));  // Log the result
+
+            if (optionalCollecte.isPresent()) {  // Check if Optional contains a value
+                resp.setData(optionalCollecte.get());  // Get the client if present
                 resp.setStatus(Trame.ResponseCode.SUCCESS);
-                resp.setMessage("SUCCESS");
-                return  resp;
-            }else{
-                throw new CrudOperationException("Client not found ", Trame.ResponseCode.NOT_FOUND);
+                resp.setMessage("Client found successfully");
+            } else {
+                resp.setStatus(Trame.ResponseCode.NOT_FOUND);
+                resp.setMessage("Client not found");
+                resp.setData(null);  // Set data to null instead of empty string
+                throw new CrudOperationException("Client not found", Trame.ResponseCode.NOT_FOUND);
             }
-        } catch (CrudOperationException e){
+        } catch (CrudOperationException e) {
+            LOGGER.error("Error finding client by name: " + name, e);  // Logging the error
+            logFailure("getclientbyname", Collections.singletonList(name), e);
             resp.setStatus(e.getResponse().getStatus());
             resp.setMessage(e.getResponse().getMessage());
         }
-        return  resp;
+        return resp;
     }
+
+
 
     /**
      * Add a new client.
@@ -240,6 +278,8 @@ public class ClientServices {
                 throw new CrudOperationException("The collector number given was not found ", Trame.ResponseCode.NOT_FOUND);
             }
         } catch (CrudOperationException e){
+
+            logFailure("addClient", Collections.singletonList(client), e);
             resp.setStatus(e.getResponse().getStatus());
             resp.setMessage(e.getResponse().getMessage());
         }
@@ -267,20 +307,29 @@ public class ClientServices {
     public APIResponse updateClientPassword(String num, String password) {
         APIResponse resp = new APIResponse();
         try {
-            ClientCollecte client = this.clientRepository.findByNum(num);
-            if (client != null){
-                clientCollecte.setPIN(password);
-                resp.setData(clientRepository.save(clientCollecte));
+            Optional<ClientCollecte> optionalClient = this.clientRepository.findByNum(num);  // Returns Optional<ClientCollecte>
+
+            if (optionalClient.isPresent()) {  // Check if Optional contains a value
+                ClientCollecte client = optionalClient.get();  // Unwrap the client
+                client.setPIN(password);  // Set the new PIN
+
+                resp.setData(clientRepository.save(client));  // Save the updated client
                 resp.setStatus(Trame.ResponseCode.SUCCESS);
-                resp.setMessage("SUCCESS");
-                return  resp;
-            }else{
-                throw new CrudOperationException("The collector number given was not found ", Trame.ResponseCode.NOT_FOUND);
+                resp.setMessage("Password updated successfully");
+            } else {
+                throw new CrudOperationException("The collector number given was not found", Trame.ResponseCode.NOT_FOUND);
             }
-        } catch (CrudOperationException e){
+        } catch (CrudOperationException e) {
+            logFailure("updateClientPassword", Arrays.asList(num, password), e);
             resp.setStatus(e.getResponse().getStatus());
             resp.setMessage(e.getResponse().getMessage());
+        } catch (Exception e) {
+            LOGGER.error("Unexpected error", e);  // Logging for unexpected errors
+            resp.setStatus(Trame.ResponseCode.SERVER_ERROR);
+            resp.setMessage("An unexpected error occurred while updating the password");
         }
-        return  resp;
+        return resp;
     }
+
+
 }

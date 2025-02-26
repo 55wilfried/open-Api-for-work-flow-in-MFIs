@@ -39,10 +39,11 @@ public class ClientController {
      * @param password the new password for the client.
      * @return API response with the result of the operation.
      */
-    @PutMapping("/update/{num}")
-    public APIResponse updateClient(@PathVariable String num, @RequestBody @Valid String password) {
-        return clientService.updateClientPassword(num , password);
+    @PutMapping("/update/{num}/{password}")
+    public APIResponse updateClient(@PathVariable String num, @PathVariable String password) {
+        return clientService.updateClientPassword(num, password);
     }
+
 
     /**
      * Retrieve a client by their client number.
