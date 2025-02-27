@@ -22,4 +22,8 @@ public interface ClientRepository extends JpaRepository<ClientCollecte, String>,
 
     @Query("SELECT u FROM ClientCollecte u WHERE LOWER(u.codage) = LOWER(:codage)")
     List<ClientCollecte> findAllByCodage(@Param("codage") String codage);
+
+
 }
+
+

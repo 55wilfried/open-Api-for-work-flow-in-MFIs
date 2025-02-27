@@ -5,9 +5,7 @@ spring:
   application:
     name: api-gateway
 
-redis:
-  host: localhost
-  port: 6379
+
 
   security:
     oauth2:
@@ -64,9 +62,9 @@ redis:
             - AddRequestHeader=X-Forwarded-Prefix, /client
             - name: RequestRateLimiter
               args:
-                  redis-rate-limiter.replenishRate: 5
-                  redis-rate-limiter.burstCapacity: 10
-                  redis-rate-limiter.requestedTokens: 1
+                redis-rate-limiter.replenishRate: 5
+                redis-rate-limiter.burstCapacity: 5
+                redis-rate-limiter.requestedTokens: 1
 
         # Users Service
         - id: users-services
@@ -78,6 +76,11 @@ redis:
             #  - AddRequestHeader=X-Forwarded-Prefix, /users
             - RewritePath=/client/(?<remaining>.*), /${remaining}
             - AddRequestHeader=X-Forwarded-Prefix, /client
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 5
+                redis-rate-limiter.burstCapacity: 10
+                redis-rate-limiter.requestedTokens: 1
 
         # Transactions Service
         - id: transaction-service
@@ -86,6 +89,11 @@ redis:
             - Path=/transactions/**
           filters:
             - RewritePath=/transactions/v3/api-docs, /v3/api-docs  # Fix for Swagger UI
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 5
+                redis-rate-limiter.burstCapacity: 10
+                redis-rate-limiter.requestedTokens: 1
 
         # Reporting Service
         - id: reporting-services
@@ -94,6 +102,11 @@ redis:
             - Path=/reports/**
           filters:
             - RewritePath=/reports/v3/api-docs, /v3/api-docs  # Fix for Swagger UI
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 5
+                redis-rate-limiter.burstCapacity: 10
+                redis-rate-limiter.requestedTokens: 1
 
         # Loans Service
         - id: loans-services
@@ -101,7 +114,12 @@ redis:
           predicates:
             - Path=/loan/**
           filters:
-            - RewritePath=/loan/v3/api-docs, /v3/api-docs  # Fix for Swagger UI
+            - RewritePath=/loan/v3/api-docs, /v3/api-docs  # Fix for Swagger
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 5
+                redis-rate-limiter.burstCapacity: 10
+                redis-rate-limiter.requestedTokens: 1
 
         # Auth Service
         - id: auth-services
@@ -110,6 +128,11 @@ redis:
             - Path=/auth/**
           filters:
             - RewritePath=/auth/v3/api-docs, /v3/api-docs  # Fix for Swagger UI
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 10
+                redis-rate-limiter.burstCapacity: 20
+                redis-rate-limiter.requestedTokens: 1
 
 
 # SPRINGDOC CONFIGURATION (Swagger UI for All Services via API Gateway)

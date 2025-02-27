@@ -22,7 +22,7 @@ public class SecurityConfig {
 
         http.csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchange -> exchange
-                        .pathMatchers("/auth/**", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/webjars/**")
+                        .pathMatchers("/actuator/**","/auth/**", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/webjars/**")
                         .permitAll()
                         .pathMatchers("/auth/v3/api-docs/**","/client/v3/api-docs/**", "/users/v3/api-docs/**", "/transactions/v3/api-docs/**",
                                 "/reports/v3/api-docs/**", "/loan/v3/api-docs/**")
@@ -43,3 +43,42 @@ public class SecurityConfig {
         return NimbusReactiveJwtDecoder.withJwkSetUri("http://keycloak:8080/realms/microfinance-realm/protocol/openid-connect/certs").build();
     }
 }
+
+
+///////code security config with role base controller
+
+/*
+@Configuration
+@EnableWebFluxSecurity
+public class SecurityConfig {
+
+    @Bean
+    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
+        http.csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .authorizeExchange(exchange -> exchange
+                        .pathMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .pathMatchers("/client/**").hasRole("CLIENT")
+                        .pathMatchers("/users/**").hasRole("ADMIN")
+                        .pathMatchers("/transactions/**").hasRole("USER")
+                        .pathMatchers("/reports/**").hasRole("REPORTER")
+                        .pathMatchers("/loan/**").hasRole("LOAN_MANAGER")
+                        .anyExchange().authenticated()
+                )
+                .oauth2ResourceServer(oauth2 -> oauth2
+                        .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
+                );
+
+        return http.build();
+    }
+
+    @Bean
+    public JwtAuthenticationConverter jwtAuthenticationConverter() {
+        JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+        grantedAuthoritiesConverter.setAuthorityPrefix("ROLE_"); // Ensures roles have "ROLE_" prefix
+        grantedAuthoritiesConverter.setAuthoritiesClaimName("realm_access.roles");
+
+        JwtAuthenticationConverter jwtConverter = new JwtAuthenticationConverter();
+        jwtConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
+        return jwtConverter;
+    }
+}*/

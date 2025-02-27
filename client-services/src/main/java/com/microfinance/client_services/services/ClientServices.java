@@ -1,11 +1,14 @@
 package com.microfinance.client_services.services;
 
+import com.microfinance.client_services.clientRepository.AuthentificationRepository;
 import com.microfinance.client_services.clientRepository.ClientRepository;
 import com.microfinance.client_services.kafka.FailedRequestProducer;
 import com.microfinance.client_services.models.ClientCollecte;
+import com.microfinance.client_services.models.Collecteur;
 import com.microfinance.client_services.models.FailedRequest;
 import com.microfinance.client_services.utils.APIResponse;
 import com.microfinance.client_services.utils.CrudOperationException;
+import com.microfinance.client_services.utils.Encryption;
 import com.microfinance.client_services.utils.Trame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +41,8 @@ public class ClientServices {
     }
 
 
+    @Autowired
+    private AuthentificationRepository authentificationRepository;
 
 
     @Autowired
@@ -329,6 +334,49 @@ public class ClientServices {
             resp.setMessage("An unexpected error occurred while updating the password");
         }
         return resp;
+    }
+
+
+    public APIResponse loginCollector(String username, String password) {
+        LOGGER.info("Starting login process for collector: {}", username);
+        APIResponse response = new APIResponse();
+
+        try {
+            LOGGER.info("Fetching collector from database for username: {}", username);
+            Collecteur collecteur = authentificationRepository.findCollectorByNum(username);
+
+            if (collecteur == null) {
+                LOGGER.warn("Collector not found: {}", username);
+                throw new CrudOperationException("Collector not found", Trame.ResponseCode.NOT_FOUND);
+            }
+
+            LOGGER.info("Validating password for collector: {}", username);
+            String hashedPassword = Encryption.hashPwd(password).toUpperCase();
+            LOGGER.debug("Hashed password: {}", hashedPassword);
+            LOGGER.debug("Stored password: {}", collecteur.getPassword());
+
+            if (!hashedPassword.equals(collecteur.getPassword())) {
+                LOGGER.warn("Invalid password for collector: {}", username);
+                throw new CrudOperationException("Invalid credentials, please try again", Trame.ResponseCode.ACCESS_DENIED);
+            }
+
+            if (collecteur.getIsLocked() == 1) {
+                LOGGER.warn("Collector account is locked: {}", username);
+                throw new CrudOperationException("User has been blocked", Trame.ResponseCode.CONSTRAINT_ERROR);
+            }
+
+            LOGGER.info("Collector login successful for user: {}", username);
+            response.setData(collecteur);
+            response.setStatus(Trame.ResponseCode.SUCCESS);
+            response.setMessage("Login successful");
+
+        } catch (CrudOperationException e) {
+            LOGGER.error("Login failed for collector {}: {}", username, e.getMessage());
+            response.setStatus(e.getResponse().getStatus());
+            response.setMessage(e.getResponse().getMessage());
+        }
+
+        return response;
     }
 
 

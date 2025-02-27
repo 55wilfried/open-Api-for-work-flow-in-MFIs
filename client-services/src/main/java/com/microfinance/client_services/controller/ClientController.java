@@ -1,10 +1,20 @@
 package com.microfinance.client_services.controller;
 
+import com.microfinance.client_services.models.LoginRequest;
+import com.microfinance.client_services.models.LoginResponse;
+import com.microfinance.client_services.models.TokenResponse;
 import com.microfinance.client_services.services.ClientServices;
+import com.microfinance.client_services.token.KeycloakTokenClient;
+import com.microfinance.client_services.token.TokenService;
 import com.microfinance.client_services.utils.APIResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -16,10 +26,18 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/client")
 @SecurityRequirement(name = "keycloak")
+@SecurityRequirement(name = "local")
 public class ClientController {
 
     @Autowired
     private ClientServices clientService;
+    @Autowired
+    private final TokenService tokenService;
+
+    public ClientController(TokenService tokenService) {
+        this.tokenService = tokenService;
+    }
+
 
     /**
      * Add a new client.
@@ -35,7 +53,7 @@ public class ClientController {
     /**
      * Update an existing client's password.
      *
-     * @param num     the client number.
+     * @param num      the client number.
      * @param password the new password for the client.
      * @return API response with the result of the operation.
      */
@@ -98,4 +116,26 @@ public class ClientController {
     public APIResponse getAllClientsByCollector(@PathVariable String collector) {
         return clientService.getAllClientByCol(collector);
     }
+
+
+    @Autowired
+    private KeycloakTokenClient keycloakService;
+
+
+    /*   *//* @Operation(
+            summary = "get Token",
+            description = "Authenticate a collector using their username and password",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Login successful",
+                            content = @Content(schema = @Schema(implementation = APIResponse.class))),
+                    @ApiResponse(responseCode = "400", description = "Invalid credentials")
+            }
+    )
+
+    */
+    @PostMapping("/getToken")
+    public LoginResponse loginTest(@RequestBody LoginRequest request) {
+        return tokenService.generateToken(request);
+    }
+
 }

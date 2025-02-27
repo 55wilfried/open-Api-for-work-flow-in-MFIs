@@ -45,8 +45,8 @@ public class KeycloakService {
         requestBody.add("grant_type", "password");
         requestBody.add("client_id", clientId);
         requestBody.add("client_secret", clientSecret);
-        requestBody.add("username", loginRequest.getUserName());
-        requestBody.add("password", loginRequest.getPassword());
+        requestBody.add("username", loginRequest.userName);
+        requestBody.add("password", loginRequest.password);
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(requestBody, headers);
         ResponseEntity<Map> response = restTemplate.postForEntity(tokenUrl, request, Map.class);

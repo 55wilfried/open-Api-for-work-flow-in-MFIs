@@ -31,6 +31,7 @@ public class AuthenticationFilter implements WebFilter {
         logger.info("Incoming request: {} {}", request.getMethod(), request.getURI());
 
         if (request.getURI().getPath().startsWith("/auth/") ||
+                request.getURI().getPath().startsWith("/actuator/") ||
                 request.getURI().getPath().startsWith("/swagger-ui.html") ||
                 request.getURI().getPath().startsWith("/v3/api-docs/") ||
                 request.getURI().getPath().startsWith("/swagger-ui/") ||

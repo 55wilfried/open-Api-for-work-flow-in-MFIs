@@ -1,7 +1,7 @@
 package com.microfinance.client_services.config;
 
-
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -15,7 +15,11 @@ import org.springframework.context.annotation.Configuration;
                 version = "1.0",
                 description = "API documentation for the MFI Clients Service"
         ),
-        security = @SecurityRequirement(name = "keycloak"),
+        // Include both security schemes
+        security = {
+                @SecurityRequirement(name = "keycloak"),
+                @SecurityRequirement(name = "local")
+        },
         servers = {
                 @Server(url = "/", description = "MFI Clients Services")
         }
@@ -31,6 +35,12 @@ import org.springframework.context.annotation.Configuration;
                         tokenUrl = "http://localhost:8180/realms/microfinance-realm/protocol/openid-connect/token"
                 )
         )
+)
+@SecurityScheme(
+        name = "local",
+        type = SecuritySchemeType.APIKEY,
+        in = SecuritySchemeIn.HEADER,
+        paramName = "Authorization"
 )
 @Configuration
 public class SwaggerConfig {

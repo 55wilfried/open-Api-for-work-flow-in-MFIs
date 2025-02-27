@@ -12,4 +12,8 @@ public class LoginResponse {
     private String tokenType;
     private int expiresIn;
     private String statusCode;
+
+    public LoginResponse(String accessToken, String tokenType, Integer expiresIn, String statusCode) {
+
+    }
 }
