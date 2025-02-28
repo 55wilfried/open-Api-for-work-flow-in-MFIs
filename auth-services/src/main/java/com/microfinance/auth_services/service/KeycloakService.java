@@ -1,8 +1,8 @@
 package com.microfinance.auth_services.service;
 
 
-import com.microfinance.auth_services.dto.LoginRequest;
-import com.microfinance.auth_services.dto.LoginResponse;
+import com.microfinance.auth_services.models.LoginRequest;
+import com.microfinance.auth_services.models.LoginResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -58,8 +57,9 @@ public class KeycloakService {
             return new LoginResponse(
                     (String) body.get("access_token"),
                     (String) body.get("token_type"),
-                    (Integer) body.get("expires_in"),
-                    statusCode
+                    ((Number) body.get("expires_in")).intValue(),
+                    "200",
+                    "Successfully generated token"
             );
         } else {
             throw new RuntimeException("Invalid credentials");

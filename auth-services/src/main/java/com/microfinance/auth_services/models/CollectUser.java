@@ -1,4 +1,4 @@
-package com.microfinance.auth_services.dto;
+package com.microfinance.auth_services.models;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -92,6 +92,158 @@ public class CollectUser {
     @Schema(description = "A temporary key for encryption or authentication purposes (not persisted in the database)")
     @Transient
     private String Key;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getCodage() {
+        return codage;
+    }
+
+    public void setCodage(String codage) {
+        this.codage = codage;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public boolean isConnected() {
+        return isConnected;
+    }
+
+    public void setConnected(boolean connected) {
+        isConnected = connected;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getMenuCodes() {
+        return menuCodes;
+    }
+
+    public void setMenuCodes(String menuCodes) {
+        this.menuCodes = menuCodes;
+    }
+
+    public String getPrivLg() {
+        return privLg;
+    }
+
+    public void setPrivLg(String privLg) {
+        this.privLg = privLg;
+    }
+
+    public String getDefaultPwd() {
+        return defaultPwd;
+    }
+
+    public void setDefaultPwd(String defaultPwd) {
+        this.defaultPwd = defaultPwd;
+    }
+
+    public Date getDatecr() {
+        return datecr;
+    }
+
+    public void setDatecr(Date datecr) {
+        this.datecr = datecr;
+    }
+
+    public String getCni() {
+        return cni;
+    }
+
+    public void setCni(String cni) {
+        this.cni = cni;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Date getDatemd() {
+        return datemd;
+    }
+
+    public void setDatemd(Date datemd) {
+        this.datemd = datemd;
+    }
+
+    public Integer getUsercr() {
+        return usercr;
+    }
+
+    public void setUsercr(Integer usercr) {
+        this.usercr = usercr;
+    }
+
+    public Integer getUsermd() {
+        return usermd;
+    }
+
+    public void setUsermd(Integer usermd) {
+        this.usermd = usermd;
+    }
+
+    public String getKey() {
+        return Key;
+    }
+
+    public void setKey(String key) {
+        Key = key;
+    }
 
     // Getters and setters (omitted for brevity)
 }

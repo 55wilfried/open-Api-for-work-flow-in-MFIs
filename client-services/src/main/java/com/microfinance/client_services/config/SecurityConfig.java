@@ -1,5 +1,6 @@
 package com.microfinance.client_services.config;
 
+import com.microfinance.client_services.token.FallbackJwtDecoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,8 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,7 +36,7 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**","/client/getToken").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -50,37 +53,43 @@ public class SecurityConfig {
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
         converter.setJwtGrantedAuthoritiesConverter(jwt -> {
             Collection<GrantedAuthority> authorities = extractAuthorities(jwt);
-
-            // BLOCK USERS WITH ROLE_TEST
+            // Block users with ROLE_TEST
             if (authorities.contains(new SimpleGrantedAuthority("ROLE_TEST"))) {
                 throw new SecurityException("Access denied: Users with ROLE_TEST cannot access this service.");
             }
-
             return authorities;
         });
-
         return converter;
     }
 
-    private Collection<GrantedAuthority> extractAuthorities(Jwt jwt) {
+    private Collection<GrantedAuthority> extractAuthorities(org.springframework.security.oauth2.jwt.Jwt jwt) {
         JwtGrantedAuthoritiesConverter defaultConverter = new JwtGrantedAuthoritiesConverter();
         Collection<GrantedAuthority> defaultAuthorities = defaultConverter.convert(jwt);
-
-        List<String> roles = jwt.getClaimAsStringList("roles"); // Adjust this claim name to match your JWT
-
+        List<String> roles = jwt.getClaimAsStringList("roles");
         if (roles != null) {
             List<GrantedAuthority> roleAuthorities = roles.stream()
                     .map(role -> new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()))
                     .collect(Collectors.toList());
             defaultAuthorities.addAll(roleAuthorities);
         }
-
         return defaultAuthorities;
     }
 
     @Bean
     public JwtDecoder jwtDecoder() {
-        logger.info("Loading JWT Decoder... client services");
-        return NimbusJwtDecoder.withJwkSetUri("http://keycloak:8080/realms/microfinance-realm/protocol/openid-connect/certs").build();
+        logger.info("Configuring JWT  client services...");
+        // Primary decoder using Keycloak's JWKS endpoint
+        JwtDecoder keycloakDecoder = NimbusJwtDecoder
+                .withJwkSetUri("http://keycloak:8080/realms/microfinance-realm/protocol/openid-connect/certs")
+                .build();
+
+        logger.info("Configuring JWT FAILED GO TO LOCAL  client services...");
+
+        // Fallback decoder using a local secret key
+        String fallbackSecret = "fallback-secret-key-which-is-very-secure";
+        SecretKey fallbackKey = new SecretKeySpec(fallbackSecret.getBytes(), "HMACSHA256");
+        JwtDecoder localDecoder = NimbusJwtDecoder.withSecretKey(fallbackKey).build();
+
+        return new FallbackJwtDecoder(keycloakDecoder, localDecoder);
     }
 }

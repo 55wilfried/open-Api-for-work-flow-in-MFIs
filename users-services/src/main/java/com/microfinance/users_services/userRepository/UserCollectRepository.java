@@ -1,6 +1,6 @@
 package com.microfinance.users_services.userRepository;
 
-import com.microfinance.users_services.dto.CollectUser;
+import com.microfinance.users_services.models.CollectUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -1,6 +1,10 @@
 package com.microfinance.client_services.controller;
 
+import com.microfinance.client_services.models.LoginRequest;
+import com.microfinance.client_services.models.LoginResponse;
 import com.microfinance.client_services.services.ClientServices;
+import com.microfinance.client_services.token.KeycloakTokenClient;
+import com.microfinance.client_services.token.TokenService;
 import com.microfinance.client_services.utils.APIResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -16,7 +20,20 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/client")
 @SecurityRequirement(name = "keycloak")
+@SecurityRequirement(name = "local")
 public class ClientController {
+
+
+    @Autowired
+    private KeycloakTokenClient keycloakService;
+
+    @Autowired
+    private final TokenService tokenService;
+
+    public ClientController(TokenService tokenService) {
+        this.tokenService = tokenService;
+    }
+
 
     @Autowired
     private ClientServices clientService;
@@ -97,4 +114,11 @@ public class ClientController {
     public APIResponse getAllClientsByCollector(@PathVariable String collector) {
         return clientService.getAllClientByCol(collector);
     }
+
+
+    @PostMapping("/getToken")
+    public LoginResponse loginTest(@RequestBody LoginRequest request) {
+        return tokenService.generateToken(request);
+    }
+
 }

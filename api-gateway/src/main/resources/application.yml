@@ -50,7 +50,7 @@ spring:
             - Path=/client/**
           filters:
             - RewritePath=/client/v3/api-docs, /v3/api-docs  # Fix for Swagger UI
-            - AddRequestHeader=X-Forwarded-Prefix, /client
+          #  - AddRequestHeader=X-Forwarded-Prefix, /client
 
         # Users Service
         - id: users-services
@@ -60,8 +60,8 @@ spring:
           filters:
             - RewritePath=/users/v3/api-docs, /v3/api-docs  # Fix for Swagger UI
             #  - AddRequestHeader=X-Forwarded-Prefix, /users
-            - RewritePath=/client/(?<remaining>.*), /${remaining}
-            - AddRequestHeader=X-Forwarded-Prefix, /client
+            #- RewritePath=/client/(?<remaining>.*), /${remaining}
+            #- AddRequestHeader=X-Forwarded-Prefix, /client
 
         # Transactions Service
         - id: transaction-service
@@ -93,7 +93,7 @@ spring:
           predicates:
             - Path=/auth/**
           filters:
-            - RewritePath=/auth/v3/api-docs, /v3/api-docs  # Fix for Swagger UI
+            - RewritePath=/auth/v3/api-docs, /v3/api-docs  # Only for Swagger UI
 
 
 # SPRINGDOC CONFIGURATION (Swagger UI for All Services via API Gateway)

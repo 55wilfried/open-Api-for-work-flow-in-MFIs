@@ -20,7 +20,14 @@ spring:
         keycloak:
           issuer-uri: http://keycloak:8080/realms/microfinance-realm
 
-
+keycloak:
+  auth-server-url: http://keycloak:8080
+  realm: microfinance-realm
+  client-id: microfinance-client
+  client-secret: lP2RcjBBN3dYIorv7tYPacRfC50FGEG4
+  use-resource-role-mappings: true
+  bearer-only: false
+  ssl-required: none
 
   instance:
     prefer-ip-address: true

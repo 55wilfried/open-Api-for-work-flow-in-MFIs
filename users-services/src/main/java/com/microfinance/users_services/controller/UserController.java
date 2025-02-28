@@ -1,13 +1,17 @@
 package com.microfinance.users_services.controller;
 
-import com.microfinance.users_services.dto.CollectUser;
+import com.microfinance.users_services.models.CollectUser;
+import com.microfinance.users_services.models.LoginRequest;
+import com.microfinance.users_services.models.LoginResponse;
 import com.microfinance.users_services.service.UserServices;
+import com.microfinance.users_services.token.KeycloakTokenClient;
 import com.microfinance.users_services.utils.APIResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.microfinance.users_services.token.TokenService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,10 +21,21 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Tag(name = "User Management Services", description = "APIs for managing Collect Users and Collectors")
 @SecurityRequirement(name = "keycloak83")
+@SecurityRequirement(name = "local83")
 public class UserController {
 
     @Autowired
     private UserServices userServices;
+
+    @Autowired
+    private KeycloakTokenClient keycloakService;
+
+    @Autowired
+    private final TokenService tokenService;
+
+    public UserController(TokenService tokenService) {
+        this.tokenService = tokenService;
+    }
 
     /**
      * Add a new collector.
@@ -140,5 +155,10 @@ public class UserController {
     @GetMapping("/allCollector")
     public APIResponse getAllCollector() {
         return userServices.getAllCollecteur();
+    }
+
+    @PostMapping("/getToken")
+    public LoginResponse loginTest(@RequestBody LoginRequest request) {
+        return tokenService.generateToken(request);
     }
 }

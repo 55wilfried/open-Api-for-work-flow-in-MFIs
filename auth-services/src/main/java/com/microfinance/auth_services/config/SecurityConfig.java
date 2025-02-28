@@ -1,5 +1,6 @@
 package com.microfinance.auth_services.config;
 
+import com.microfinance.auth_services.token.FallbackJwtDecoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,9 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.authorization.AuthorizationDecision;
+
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
 @Configuration
 @EnableWebSecurity
@@ -44,9 +48,27 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
+    /*@Bean
     public JwtDecoder jwtDecoder() {
         logger.info("Loading JWT Decoder...");
         return NimbusJwtDecoder.withJwkSetUri("http://keycloak:8080/realms/microfinance-realm/protocol/openid-connect/certs").build();
+    }*/
+
+    @Bean
+    public JwtDecoder jwtDecoder() {
+        logger.info("Configuring JWT  client services...");
+        // Primary decoder using Keycloak's JWKS endpoint
+        JwtDecoder keycloakDecoder = NimbusJwtDecoder
+                .withJwkSetUri("http://keycloak:8080/realms/microfinance-realm/protocol/openid-connect/certs")
+                .build();
+
+        logger.info("Configuring JWT FAILED GO TO LOCAL  client services...");
+
+        // Fallback decoder using a local secret key
+        String fallbackSecret = "fallback-secret-key-which-is-very-secure";
+        SecretKey fallbackKey = new SecretKeySpec(fallbackSecret.getBytes(), "HMACSHA256");
+        JwtDecoder localDecoder = NimbusJwtDecoder.withSecretKey(fallbackKey).build();
+
+        return new FallbackJwtDecoder(keycloakDecoder, localDecoder);
     }
 }

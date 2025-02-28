@@ -1,11 +1,12 @@
 package com.microfinance.auth_services.service;
 
-import com.microfinance.auth_services.dto.CollectUser;
-import com.microfinance.auth_services.dto.Collecteur;
-import com.microfinance.auth_services.dto.LoginRequest;
-import com.microfinance.auth_services.dto.LoginResponse;
+import com.microfinance.auth_services.models.CollectUser;
+import com.microfinance.auth_services.models.Collecteur;
+import com.microfinance.auth_services.models.LoginRequest;
+import com.microfinance.auth_services.models.LoginResponse;
 import com.microfinance.auth_services.repository.AuthentificationRepository;
 import com.microfinance.auth_services.repository.AuthentificationRepositoryUSer;
+import com.microfinance.auth_services.token.TokenService;
 import com.microfinance.auth_services.utils.APIResponse;
 import com.microfinance.auth_services.utils.CrudOperationException;
 import com.microfinance.auth_services.utils.Encryption;
@@ -30,6 +31,9 @@ public class AuthService {
     private AuthentificationRepositoryUSer authentificationRepositoryUSer;
 
 
+    @Autowired
+    private  TokenService tokenService;
+
 
 
     @Autowired
@@ -37,9 +41,10 @@ public class AuthService {
 
     public APIResponse loginCollectorALL(LoginRequest loginRequest , int request) {
         APIResponse response = new APIResponse();
-
+        LoginResponse loginResponse = null;
         try {
-            LoginResponse loginResponse   =   keycloakService.getToken(loginRequest);
+           loginResponse   =   tokenService.generateToken(loginRequest);
+          //  LoginResponse loginResponse   =   keycloakService.getToken(loginRequest);
             if(Objects.equals(loginResponse.getStatusCode(), "200")){
                 if(request == 1){
                     token = loginResponse.getAccessToken();
@@ -51,8 +56,8 @@ public class AuthService {
             }
 
         } catch (Exception e) {
-            response.setStatus(350);
-            response.setMessage(e.getMessage());
+            response.setStatus(Integer.parseInt(loginResponse.getStatusCode()));
+            response.setMessage(loginResponse.getMessage());
         }
 
         return response;

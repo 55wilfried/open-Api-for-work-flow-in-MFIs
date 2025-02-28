@@ -1,4 +1,4 @@
-package com.microfinance.users_services.dto;
+package com.microfinance.users_services.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

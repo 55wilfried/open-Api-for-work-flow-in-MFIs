@@ -1,6 +1,7 @@
 package com.microfinance.auth_services.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -14,7 +15,10 @@ import org.springframework.context.annotation.Configuration;
                 version = "1.0",
                 description = "API documentation for Authentication Services"
         ),
-        security = @SecurityRequirement(name = "keycloak81"),
+        security = {
+                @SecurityRequirement(name = "keycloak81"),
+                @SecurityRequirement(name = "local81")
+        },
         servers = {
                 @Server(url = "/", description = "Auth Services")
         }
@@ -30,6 +34,12 @@ import org.springframework.context.annotation.Configuration;
                         tokenUrl = "http://localhost:8180/realms/microfinance-realm/protocol/openid-connect/token"
                 )
         )
+)
+@SecurityScheme(
+        name = "local81",
+        type = SecuritySchemeType.APIKEY,
+        in = SecuritySchemeIn.HEADER,
+        paramName = "Authorization"
 )
 public class OpenApiConfig {
 }

@@ -1,7 +1,8 @@
 package com.microfinance.auth_services.AuthController;
 
-import com.microfinance.auth_services.dto.LoginRequest;
-import com.microfinance.auth_services.dto.LoginResponse;
+import com.microfinance.auth_services.models.LoginRequest;
+import com.microfinance.auth_services.models.LoginResponse;
+import com.microfinance.auth_services.token.TokenService;
 import com.microfinance.auth_services.service.AuthService;
 import com.microfinance.auth_services.service.KeycloakService;
 import com.microfinance.auth_services.utils.APIResponse;
@@ -13,22 +14,23 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8080", maxAge = 3600, allowCredentials = "true")
 @Tag(name = "Authentication Services", description = "APIs for managing access and authentication to the system")
 @RequestMapping("/auth")
 @SecurityRequirement(name = "keycloak81")
+@SecurityRequirement(name = "local81")
 public class AuthController {
 
 
 
     @Autowired
     private AuthService authService;
+    @Autowired
+    private  TokenService tokenService;
+
 
     @Operation(
             summary = "Login as a collector",
@@ -66,6 +68,11 @@ public class AuthController {
     @PostMapping("/loginCollector1")
     public LoginResponse loginTest(@RequestBody LoginRequest request) {
         return keycloakService.getToken(request);
+    }
+
+    @PostMapping("/getToken")
+    public LoginResponse loginTest0(@RequestBody LoginRequest request) {
+        return tokenService.generateToken(request);
     }
 
 
