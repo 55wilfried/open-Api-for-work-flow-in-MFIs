@@ -130,3 +130,7 @@ logging:
     org.springframework.web: DEBUG
     org.springframework.boot: DEBUG
 
+eureka:
+  client:
+    initialInstanceInfoReplicationIntervalSeconds: 20
+    registryFetchIntervalSeconds: 5  # Fetch updates every 5 seconds
