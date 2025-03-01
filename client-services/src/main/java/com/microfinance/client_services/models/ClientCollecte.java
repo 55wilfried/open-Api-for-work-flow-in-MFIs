@@ -148,4 +148,244 @@ public class ClientCollecte implements Serializable {
     @Column(name = "Language", length = 5)
     @Schema(description = "Language preference of the client", example = "EN")
     private String language;
+
+    public String getNum() {
+        return num;
+    }
+
+    public void setNum(String num) {
+        this.num = num;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getCni() {
+        return cni;
+    }
+
+    public void setCni(String cni) {
+        this.cni = cni;
+    }
+
+    public String getCodage() {
+        return codage;
+    }
+
+    public void setCodage(String codage) {
+        this.codage = codage;
+    }
+
+    public String getNumCol() {
+        return numCol;
+    }
+
+    public void setNumCol(String numCol) {
+        this.numCol = numCol;
+    }
+
+    public String getNomCol() {
+        return nomCol;
+    }
+
+    public void setNomCol(String nomCol) {
+        this.nomCol = nomCol;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPwd() {
+        return pwd;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public Date getDateCrea() {
+        return dateCrea;
+    }
+
+    public void setDateCrea(Date dateCrea) {
+        this.dateCrea = dateCrea;
+    }
+
+    public Float getCommissionres() {
+        return commissionres;
+    }
+
+    public void setCommissionres(Float commissionres) {
+        this.commissionres = commissionres;
+    }
+
+    public Float getTaux() {
+        return taux;
+    }
+
+    public void setTaux(Float taux) {
+        this.taux = taux;
+    }
+
+    public Float getSoldeInitial() {
+        return soldeInitial;
+    }
+
+    public void setSoldeInitial(Float soldeInitial) {
+        this.soldeInitial = soldeInitial;
+    }
+
+    public Float getMontantDebit() {
+        return montantDebit;
+    }
+
+    public void setMontantDebit(Float montantDebit) {
+        this.montantDebit = montantDebit;
+    }
+
+    public Float getMontantCredit() {
+        return montantCredit;
+    }
+
+    public void setMontantCredit(Float montantCredit) {
+        this.montantCredit = montantCredit;
+    }
+
+    public Boolean getSms() {
+        return sms;
+    }
+
+    public void setSms(Boolean sms) {
+        this.sms = sms;
+    }
+
+    public Boolean getViewBalanceInSms() {
+        return viewBalanceInSms;
+    }
+
+    public void setViewBalanceInSms(Boolean viewBalanceInSms) {
+        this.viewBalanceInSms = viewBalanceInSms;
+    }
+
+    public Boolean getActivated() {
+        return isActivated;
+    }
+
+    public void setActivated(Boolean activated) {
+        isActivated = activated;
+    }
+
+    public String getNumCarte() {
+        return numCarte;
+    }
+
+    public void setNumCarte(String numCarte) {
+        this.numCarte = numCarte;
+    }
+
+    public String getComParam() {
+        return comParam;
+    }
+
+    public void setComParam(String comParam) {
+        this.comParam = comParam;
+    }
+
+    public Boolean getCard() {
+        return isCard;
+    }
+
+    public void setCard(Boolean card) {
+        isCard = card;
+    }
+
+    public String getOldCpt() {
+        return oldCpt;
+    }
+
+    public void setOldCpt(String oldCpt) {
+        this.oldCpt = oldCpt;
+    }
+
+    public String getNumcpt() {
+        return numcpt;
+    }
+
+    public void setNumcpt(String numcpt) {
+        this.numcpt = numcpt;
+    }
+
+    public Boolean getHasPIN() {
+        return hasPIN;
+    }
+
+    public void setHasPIN(Boolean hasPIN) {
+        this.hasPIN = hasPIN;
+    }
+
+    public String getPIN() {
+        return PIN;
+    }
+
+    public void setPIN(String PIN) {
+        this.PIN = PIN;
+    }
+
+    public Boolean getNew() {
+        return isNew;
+    }
+
+    public void setNew(Boolean aNew) {
+        isNew = aNew;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public String getLocalisation() {
+        return localisation;
+    }
+
+    public void setLocalisation(String localisation) {
+        this.localisation = localisation;
+    }
+
+    public String getMig() {
+        return mig;
+    }
+
+    public void setMig(String mig) {
+        this.mig = mig;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 }

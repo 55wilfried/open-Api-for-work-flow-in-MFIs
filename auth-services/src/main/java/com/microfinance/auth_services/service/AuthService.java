@@ -1,9 +1,7 @@
 package com.microfinance.auth_services.service;
 
-import com.microfinance.auth_services.models.CollectUser;
-import com.microfinance.auth_services.models.Collecteur;
-import com.microfinance.auth_services.models.LoginRequest;
-import com.microfinance.auth_services.models.LoginResponse;
+import com.microfinance.auth_services.kafka.FailedRequestProducer;
+import com.microfinance.auth_services.models.*;
 import com.microfinance.auth_services.repository.AuthentificationRepository;
 import com.microfinance.auth_services.repository.AuthentificationRepositoryUSer;
 import com.microfinance.auth_services.token.TokenService;
@@ -16,6 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -35,6 +36,14 @@ public class AuthService {
     private  TokenService tokenService;
 
 
+    @Autowired
+    private FailedRequestProducer failedRequestProducer;
+
+
+    private void logFailure(String methodName, List<String> payload, Exception e) {
+        FailedRequest failedRequest = new FailedRequest(methodName.toLowerCase(), payload, e.getMessage());
+        failedRequestProducer.sendFailedRequest(failedRequest);
+    }
 
     @Autowired
     private KeycloakService keycloakService;
@@ -56,6 +65,7 @@ public class AuthService {
             }
 
         } catch (Exception e) {
+            logFailure("logincollectorall", Arrays.asList(loginRequest.getUserName(),loginRequest.getPassword(), String.valueOf(request)), e);
             response.setStatus(Integer.parseInt(loginResponse.getStatusCode()));
             response.setMessage(loginResponse.getMessage());
         }
@@ -102,14 +112,12 @@ public class AuthService {
             response.setMessage("Login successful");
 
         } catch (CrudOperationException e) {
-            LOGGER.error("Login failed for collector {}: {}", loginRequest.getUserName(), e.getMessage());
+            LOGGER.error("Login failed for Unexpected error collector {}: {}", loginRequest.getUserName(), e.getMessage());
             response.setStatus(e.getResponse().getStatus());
             response.setMessage(e.getResponse().getMessage());
-        } catch (Exception e) {
-            LOGGER.error("Unexpected error during collector login: {}", e.getMessage(), e);
-            response.setStatus(Trame.ResponseCode.SERVER_ERROR);
-            response.setMessage(e.getMessage());
+            logFailure("logincollector", Arrays.asList(loginRequest.getUserName(),loginRequest.getPassword(), String.valueOf(1)), e);
         }
+
 
         return response;
     }
@@ -151,13 +159,11 @@ public class AuthService {
             response.setMessage("Login successful");
 
         } catch (CrudOperationException e) {
-            LOGGER.error("Login failed for user {}: {}", loginRequest.getUserName(), e.getMessage());
+            LOGGER.error("Login failed for user Unexpected error{}: {}", loginRequest.getUserName(), e.getMessage());
             response.setStatus(e.getResponse().getStatus());
             response.setMessage(e.getResponse().getMessage());
-        } catch (Exception e) {
-            LOGGER.error("Unexpected error during user login: {}", e.getMessage(), e);
-            response.setStatus(Trame.ResponseCode.SERVER_ERROR);
-            response.setMessage("An unexpected error occurred");
+            logFailure("loginuser", Arrays.asList(loginRequest.getUserName(),loginRequest.getPassword(), String.valueOf(2)), e);
+
         }
 
         return response;

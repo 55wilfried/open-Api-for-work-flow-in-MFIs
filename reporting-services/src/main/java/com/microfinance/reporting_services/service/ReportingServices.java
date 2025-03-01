@@ -1,8 +1,8 @@
 package com.microfinance.reporting_services.service;
 
-import com.microfinance.reporting_services.dto.ClientCollecte;
-import com.microfinance.reporting_services.dto.OperationCollecte;
-import com.microfinance.reporting_services.dto.RequestTransactionByParams;
+import com.microfinance.reporting_services.models.ClientCollecte;
+import com.microfinance.reporting_services.models.OperationCollecte;
+import com.microfinance.reporting_services.models.RequestTransactionByParams;
 import com.microfinance.reporting_services.reportingRepository.ClientReportRepository;
 import com.microfinance.reporting_services.reportingRepository.TransactionReportingRepository;
 import com.microfinance.reporting_services.utils.APIResponse;
@@ -10,7 +10,6 @@ import com.microfinance.reporting_services.utils.CrudOperationException;
 import com.microfinance.reporting_services.utils.Trame;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;

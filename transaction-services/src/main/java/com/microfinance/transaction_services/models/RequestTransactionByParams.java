@@ -1,4 +1,4 @@
-package com.microfinance.transaction_services.dto;
+package com.microfinance.transaction_services.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;

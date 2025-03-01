@@ -1,7 +1,7 @@
 package com.microfinance.transaction_services.service;
 
-import com.microfinance.transaction_services.dto.OperationCollecte;
-import com.microfinance.transaction_services.dto.RequestTransactionByParams;
+import com.microfinance.transaction_services.models.OperationCollecte;
+import com.microfinance.transaction_services.models.RequestTransactionByParams;
 import com.microfinance.transaction_services.transactionRepository.TransacionByParams;
 import com.microfinance.transaction_services.transactionRepository.TransactionRepository;
 import com.microfinance.transaction_services.utils.*;

@@ -1,4 +1,5 @@
-package com.microfinance.transaction_services.dto;
+package com.microfinance.reporting_services.models;
+
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;

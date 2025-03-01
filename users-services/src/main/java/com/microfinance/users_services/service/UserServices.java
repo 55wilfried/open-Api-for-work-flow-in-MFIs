@@ -1,7 +1,9 @@
 package com.microfinance.users_services.service;
 
+import com.microfinance.users_services.kafka.FailedRequestProducer;
 import com.microfinance.users_services.models.CollectUser;
 import com.microfinance.users_services.models.Collecteur;
+import com.microfinance.users_services.models.FailedRequest;
 import com.microfinance.users_services.userRepository.AuthentificationRepository;
 import com.microfinance.users_services.userRepository.UserCollectRepository;
 import com.microfinance.users_services.userRepository.UserCollectorRepository;
@@ -12,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -32,6 +36,14 @@ public class UserServices {
     @Autowired
     private AuthentificationRepository authentificationRepository;
 
+    @Autowired
+    private FailedRequestProducer failedRequestProducer;
+
+
+    private void logFailure(String methodName, List<String> payload, Exception e) {
+        FailedRequest failedRequest = new FailedRequest(methodName.toLowerCase(), payload, e.getMessage());
+        failedRequestProducer.sendFailedRequest(failedRequest);
+    }
 
     @Autowired
     private Helpers helpers;
@@ -55,6 +67,7 @@ public class UserServices {
                 throw new CrudOperationException("The List is Empty", Trame.ResponseCode.NOT_FOUND);
             }
         } catch (CrudOperationException e) {
+            logFailure("getallcollecteur", Collections.singletonList(""), e);
             resp.setStatus(e.getResponse().getStatus());
             resp.setMessage(e.getResponse().getMessage());
         }
@@ -80,6 +93,7 @@ public class UserServices {
                 throw new CrudOperationException("The List is Empty", Trame.ResponseCode.NOT_FOUND);
             }
         } catch (CrudOperationException e) {
+            logFailure("getallcollectuser", Collections.singletonList(""), e);
             resp.setStatus(e.getResponse().getStatus());
             resp.setMessage(e.getResponse().getMessage());
         }
@@ -106,6 +120,7 @@ public class UserServices {
                 throw new CrudOperationException("The List is Empty", Trame.ResponseCode.NOT_FOUND);
             }
         } catch (CrudOperationException e) {
+            logFailure("getallcollectorbycodage", Collections.singletonList(codage), e);
             resp.setStatus(e.getResponse().getStatus());
             resp.setMessage(e.getResponse().getMessage());
         }
@@ -132,6 +147,7 @@ public class UserServices {
                 throw new CrudOperationException("The List is Empty", Trame.ResponseCode.NOT_FOUND);
             }
         } catch (CrudOperationException e) {
+            logFailure("getallcollectuserbycodage", Collections.singletonList(codage), e);
             resp.setStatus(e.getResponse().getStatus());
             resp.setMessage(e.getResponse().getMessage());
         }
@@ -159,6 +175,7 @@ public class UserServices {
                 throw new CrudOperationException("The Client not found", Trame.ResponseCode.NOT_FOUND);
             }
         } catch (CrudOperationException e) {
+            logFailure("getcollectorbyid", Collections.singletonList(num), e);
             resp.setStatus(e.getResponse().getStatus());
             resp.setMessage(e.getResponse().getMessage());
         }
@@ -186,6 +203,7 @@ public class UserServices {
                 throw new CrudOperationException("The Client not found", Trame.ResponseCode.NOT_FOUND);
             }
         } catch (CrudOperationException e) {
+            logFailure("getcollectuserbyid", Collections.singletonList(userName), e);
             resp.setStatus(e.getResponse().getStatus());
             resp.setMessage(e.getResponse().getMessage());
         }
@@ -215,6 +233,7 @@ public class UserServices {
                 throw new CrudOperationException("The collector number given was not found", Trame.ResponseCode.NOT_FOUND);
             }
         } catch (CrudOperationException e) {
+            logFailure("addCollector", Collections.singletonList(collecteur), e);
             resp.setStatus(e.getResponse().getStatus());
             resp.setMessage(e.getResponse().getMessage());
         }
@@ -252,6 +271,7 @@ public class UserServices {
                 throw new CrudOperationException("The collector number given was not found", Trame.ResponseCode.NOT_FOUND);
             }
         } catch (CrudOperationException e) {
+            logFailure("updatecollector", Arrays.asList(num,collecteur), e);
             resp.setStatus(e.getResponse().getStatus());
             resp.setMessage(e.getResponse().getMessage());
         }
@@ -279,6 +299,7 @@ public class UserServices {
                 throw new CrudOperationException("The collector number given was not found", Trame.ResponseCode.NOT_FOUND);
             }
         } catch (CrudOperationException e) {
+            logFailure("updateUsercollect", Arrays.asList(userName,collectUser), e);
             resp.setStatus(e.getResponse().getStatus());
             resp.setMessage(e.getResponse().getMessage());
         }
@@ -321,6 +342,7 @@ public class UserServices {
 
         } catch (CrudOperationException e) {
             LOGGER.error("Login failed for collector {}: {}", username, e.getMessage());
+            logFailure("logincollector", Arrays.asList(username,password), e);
             response.setStatus(e.getResponse().getStatus());
             response.setMessage(e.getResponse().getMessage());
         }

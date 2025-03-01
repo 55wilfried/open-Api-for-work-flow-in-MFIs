@@ -5,27 +5,24 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface ClientRepository extends JpaRepository<ClientCollecte,String>, ClientRepositoryCustom {
-    @Query("SELECT u FROM ClientCollecte u WHERE LOWER(u.num) =LOWER(:num)")
-    ClientCollecte findByNum(@Param("num") String num);
+public interface ClientRepository extends JpaRepository<ClientCollecte, String>, ClientRepositoryCustom {
 
-    @Query("Select u From ClientCollecte u where LOWER(u.nom) =Lower(:nom)")
-    ClientCollecte findByName(@Param("nom") String name);
+    @Query("SELECT u FROM ClientCollecte u WHERE LOWER(u.num) = LOWER(:num)")
+    Optional<ClientCollecte> findByNum(@Param("num") String num);
 
-    @Query("Select u From ClientCollecte u where LOWER(u.numCol) =Lower(:numCol)")
+    @Query("SELECT u FROM ClientCollecte u WHERE LOWER(u.nom) = LOWER(:nom)")
+    Optional<ClientCollecte> findByName(@Param("nom") String name);
+
+    @Query("SELECT u FROM ClientCollecte u WHERE LOWER(u.numCol) = LOWER(:numCol)")
     List<ClientCollecte> findAllByCollector(@Param("numCol") String numCol);
 
-    @Query("Select u From ClientCollecte u where LOWER(u.codage) =Lower(:codage)")
+    @Query("SELECT u FROM ClientCollecte u WHERE LOWER(u.codage) = LOWER(:codage)")
     List<ClientCollecte> findAllByCodage(@Param("codage") String codage);
 
-
-
-    /*@Query("SELECT c FROM ClientCollecte c WHERE c.:key = :value")
-    ClientCollecte findByKeyValue(@Param("key") String key, @Param("value") String value);*/
 
 }
 

@@ -1,6 +1,6 @@
 package com.microfinance.transaction_services.controller;
 
-import com.microfinance.transaction_services.dto.OperationCollecte;
+import com.microfinance.transaction_services.models.OperationCollecte;
 import com.microfinance.transaction_services.service.TransactionServices;
 import com.microfinance.transaction_services.utils.APIResponse;
 import io.swagger.v3.oas.annotations.Operation;

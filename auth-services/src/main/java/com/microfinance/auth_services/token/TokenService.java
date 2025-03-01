@@ -50,10 +50,15 @@ public class TokenService {
             throw new RuntimeException("Triggering fallback due to unexpected response: " + e.getStatusCode());
         } catch (HttpServerErrorException e) {
             // Trigger fallback for 5xx errors
-            throw new RuntimeException("Triggering fallback due to server error: " + e.getStatusCode());
+            return  response = fallbackGenerateToken1(request);
+
+            //  throw new RuntimeException("Triggering fallback due to server error: " + e.getStatusCode());
+
         } catch (RestClientException e) {
             // Any other network-related error triggers fallback
-            throw new RuntimeException("Triggering fallback due to connection failure.");
+           // throw new RuntimeException("Triggering fallback due to connection failure.");
+            return  response = fallbackGenerateToken1(request);
+
         }
     }
 
@@ -71,7 +76,7 @@ public class TokenService {
         );
     }
 
-    /*public LoginResponse fallbackGenerateToken(LoginRequest request, Throwable e) {
+    public LoginResponse fallbackGenerateToken(LoginRequest request, Throwable e) {
         logger.warn("Fallback invoked for user {} due to exception: {}", request.getUserName(), e.getMessage());
         TokenResponse tokenResponse = localTokenService.generateToken(request.getUserName(), request.getPassword());
         return new LoginResponse(
@@ -81,5 +86,5 @@ public class TokenService {
                 String.valueOf(tokenResponse.getStatus()),
                 tokenResponse.getMessage()
         );
-    }*/
+    }
 }

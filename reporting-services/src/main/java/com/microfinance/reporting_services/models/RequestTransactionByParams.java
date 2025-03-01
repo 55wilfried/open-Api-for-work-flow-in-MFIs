@@ -1,4 +1,4 @@
-package com.microfinance.reporting_services.dto;
+package com.microfinance.reporting_services.models;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

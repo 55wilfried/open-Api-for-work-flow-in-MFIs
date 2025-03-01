@@ -1,8 +1,6 @@
 package com.microfinance.transaction_services.transactionRepository;
 
-import com.microfinance.transaction_services.dto.OperationCollecte;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import com.microfinance.transaction_services.models.OperationCollecte;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

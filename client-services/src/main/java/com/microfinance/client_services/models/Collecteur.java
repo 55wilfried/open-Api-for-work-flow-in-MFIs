@@ -145,5 +145,261 @@ public class Collecteur {
     @Transient
     private String Key;
 
+    public String getNum() {
+        return num;
+    }
+
+    public void setNum(String num) {
+        this.num = num;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public float getCommission() {
+        return commission;
+    }
+
+    public void setCommission(float commission) {
+        this.commission = commission;
+    }
+
+    public Float getTauxcom() {
+        return tauxcom;
+    }
+
+    public void setTauxcom(Float tauxcom) {
+        this.tauxcom = tauxcom;
+    }
+
+    public Float getTauxPrime() {
+        return tauxPrime;
+    }
+
+    public void setTauxPrime(Float tauxPrime) {
+        this.tauxPrime = tauxPrime;
+    }
+
+    public String getCni() {
+        return cni;
+    }
+
+    public void setCni(String cni) {
+        this.cni = cni;
+    }
+
+    public String getNumcpt() {
+        return numcpt;
+    }
+
+    public void setNumcpt(String numcpt) {
+        this.numcpt = numcpt;
+    }
+
+    public Float getPrime() {
+        return prime;
+    }
+
+    public void setPrime(Float prime) {
+        this.prime = prime;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getLocalisation() {
+        return localisation;
+    }
+
+    public void setLocalisation(String localisation) {
+        this.localisation = localisation;
+    }
+
+    public String getCodage() {
+        return codage;
+    }
+
+    public void setCodage(String codage) {
+        this.codage = codage;
+    }
+
+    public String getIdFront() {
+        return idFront;
+    }
+
+    public void setIdFront(String idFront) {
+        this.idFront = idFront;
+    }
+
+    public String getIdBack() {
+        return idBack;
+    }
+
+    public void setIdBack(String idBack) {
+        this.idBack = idBack;
+    }
+
+    public Float getChiffreAffaire() {
+        return chiffreAffaire;
+    }
+
+    public void setChiffreAffaire(Float chiffreAffaire) {
+        this.chiffreAffaire = chiffreAffaire;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public Boolean getActivated() {
+        return isActivated;
+    }
+
+    public void setActivated(Boolean activated) {
+        isActivated = activated;
+    }
+
+    public Integer getIsDebit() {
+        return isDebit;
+    }
+
+    public void setIsDebit(Integer isDebit) {
+        this.isDebit = isDebit;
+    }
+
+    public Integer getIsCredit() {
+        return isCredit;
+    }
+
+    public void setIsCredit(Integer isCredit) {
+        this.isCredit = isCredit;
+    }
+
+    public Integer getIsConnect() {
+        return isConnect;
+    }
+
+    public void setIsConnect(Integer isConnect) {
+        this.isConnect = isConnect;
+    }
+
+    public Integer getIsLocked() {
+        return isLocked;
+    }
+
+    public void setIsLocked(Integer isLocked) {
+        this.isLocked = isLocked;
+    }
+
+    public Date getDateCrea() {
+        return dateCrea;
+    }
+
+    public void setDateCrea(Date dateCrea) {
+        this.dateCrea = dateCrea;
+    }
+
+    public Float getMntBlk() {
+        return mntBlk;
+    }
+
+    public void setMntBlk(Float mntBlk) {
+        this.mntBlk = mntBlk;
+    }
+
+    public String getTelBlkSMS() {
+        return telBlkSMS;
+    }
+
+    public void setTelBlkSMS(String telBlkSMS) {
+        this.telBlkSMS = telBlkSMS;
+    }
+
+    public String getMacAdd() {
+        return macAdd;
+    }
+
+    public void setMacAdd(String macAdd) {
+        this.macAdd = macAdd;
+    }
+
+    public Boolean getOffline() {
+        return isOffline;
+    }
+
+    public void setOffline(Boolean offline) {
+        isOffline = offline;
+    }
+
+    public String getLastNumOp() {
+        return lastNumOp;
+    }
+
+    public void setLastNumOp(String lastNumOp) {
+        this.lastNumOp = lastNumOp;
+    }
+
+    public String getNumCptMbr() {
+        return numCptMbr;
+    }
+
+    public void setNumCptMbr(String numCptMbr) {
+        this.numCptMbr = numCptMbr;
+    }
+
+    public String getDefaultPwd() {
+        return defaultPwd;
+    }
+
+    public void setDefaultPwd(String defaultPwd) {
+        this.defaultPwd = defaultPwd;
+    }
+
+    public Float getSoldeActuel() {
+        return soldeActuel;
+    }
+
+    public void setSoldeActuel(Float soldeActuel) {
+        this.soldeActuel = soldeActuel;
+    }
+
+    public String getKey() {
+        return Key;
+    }
+
+    public void setKey(String key) {
+        Key = key;
+    }
+
     // Getters and setters (omitted for brevity)
 }
