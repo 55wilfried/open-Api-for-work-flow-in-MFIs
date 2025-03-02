@@ -1,8 +1,8 @@
 package com.microfinance.auth_services.kafka;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.microfinance.auth_services.models.LoginRequest;
 import com.microfinance.auth_services.service.AuthService;
+import com.microfinance.auth_services.models.LoginRequest;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import jakarta.annotation.PostConstruct;

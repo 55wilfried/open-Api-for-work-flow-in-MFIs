@@ -6,6 +6,8 @@ import com.microfinance.client_services.services.ClientServices;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,7 @@ public class RequestRetryService {
 
     private Counter failedRequestCounter;
     private Counter retrySuccessCounter;
+    private static final Logger LOGGER = LoggerFactory.getLogger(RequestRetryService.class);
 
     @PostConstruct
     public void init() {
@@ -135,4 +138,8 @@ public class RequestRetryService {
             e.printStackTrace();
         }
     }
+
+
+
+
 }

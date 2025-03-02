@@ -1,4 +1,4 @@
-package com.microfinance.auth_services.utils;
+package com.microfinance.loan_services.utils;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

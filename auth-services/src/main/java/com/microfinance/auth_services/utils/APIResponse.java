@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
  * API Response model for standardizing API responses.
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+
+
 @Schema(description = "Standard API response model")
-public class APIResponse<T> {
+public class APIResponse {
 
     @Schema(description = "HTTP status code", example = "200")
     private int status;
@@ -21,7 +21,16 @@ public class APIResponse<T> {
     private String message;
 
     @Schema(description = "Response data")
-    private T data;
+    private Object data;
+
+    public APIResponse() {
+    }
+
+    public APIResponse(int status, String message, Object data) {
+        this.status = status;
+        this.message = message;
+        this.data = data;
+    }
 
     public int getStatus() {
         return status;
@@ -39,11 +48,11 @@ public class APIResponse<T> {
         this.message = message;
     }
 
-    public T getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(Object data) {
         this.data = data;
     }
 }

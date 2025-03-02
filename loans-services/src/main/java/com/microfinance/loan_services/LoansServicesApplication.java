@@ -1,4 +1,4 @@
-package com.microfinance.auth_services;
+package com.microfinance.loan_services;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

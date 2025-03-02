@@ -19,9 +19,6 @@ spring:
         keycloak:
           issuer-uri: http://keycloak:8080/realms/microfinance-realm
 
-
-
-
   webflux:
     cors:
       allowed-origins:
@@ -32,7 +29,6 @@ spring:
       allowed-headers: "*"
       allow-credentials: true
 
-
   management:
     endpoints:
       web:
@@ -42,6 +38,7 @@ spring:
 
   cloud:
     gateway:
+      gateway:
       routes:
         # Clients Service
         - id: client-service
@@ -50,7 +47,16 @@ spring:
             - Path=/client/**
           filters:
             - RewritePath=/client/v3/api-docs, /v3/api-docs  # Fix for Swagger UI
-          #  - AddRequestHeader=X-Forwarded-Prefix, /client
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.burstCapacity: 1
+                redis-rate-limiter.requestedTokens: 1
+                key-resolver: "#{@KeyResolverConfiguration}"
+            - name: CircuitBreaker
+              args:
+                name: circuitBreakerInstance
+                fallbackUri: forward:/fallback/client
 
         # Users Service
         - id: users-services
@@ -59,9 +65,16 @@ spring:
             - Path=/users/**
           filters:
             - RewritePath=/users/v3/api-docs, /v3/api-docs  # Fix for Swagger UI
-            #  - AddRequestHeader=X-Forwarded-Prefix, /users
-            #- RewritePath=/client/(?<remaining>.*), /${remaining}
-            #- AddRequestHeader=X-Forwarded-Prefix, /client
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.burstCapacity: 1
+                redis-rate-limiter.requestedTokens: 1
+                key-resolver: "#{@KeyResolverConfiguration}"
+            - name: CircuitBreaker
+              args:
+                name: circuitBreakerInstance
+                fallbackUri: forward:/fallback/users
 
         # Transactions Service
         - id: transaction-service
@@ -70,6 +83,16 @@ spring:
             - Path=/transactions/**
           filters:
             - RewritePath=/transactions/v3/api-docs, /v3/api-docs  # Fix for Swagger UI
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.burstCapacity: 1
+                redis-rate-limiter.requestedTokens: 1
+                key-resolver: "#{@KeyResolverConfiguration}"
+            - name: CircuitBreaker
+              args:
+                name: circuitBreakerInstance
+                fallbackUri: forward:/fallback/transactions
 
         # Reporting Service
         - id: reporting-services
@@ -78,6 +101,16 @@ spring:
             - Path=/reports/**
           filters:
             - RewritePath=/reports/v3/api-docs, /v3/api-docs  # Fix for Swagger UI
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.burstCapacity: 1
+                redis-rate-limiter.requestedTokens: 1
+                key-resolver: "#{@KeyResolverConfiguration}"
+            - name: CircuitBreaker
+              args:
+                name: circuitBreakerInstance
+                fallbackUri: forward:/fallback/reports
 
         # Loans Service
         - id: loans-services
@@ -86,6 +119,16 @@ spring:
             - Path=/loan/**
           filters:
             - RewritePath=/loan/v3/api-docs, /v3/api-docs  # Fix for Swagger UI
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.burstCapacity: 1
+                redis-rate-limiter.requestedTokens: 1
+                key-resolver: "#{@KeyResolverConfiguration}"
+            - name: CircuitBreaker
+              args:
+                name: circuitBreakerInstance
+                fallbackUri: forward:/fallback/loan
 
         # Auth Service
         - id: auth-services
@@ -94,7 +137,16 @@ spring:
             - Path=/auth/**
           filters:
             - RewritePath=/auth/v3/api-docs, /v3/api-docs  # Only for Swagger UI
-
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.burstCapacity: 1
+                redis-rate-limiter.requestedTokens: 1
+                key-resolver: "#{@KeyResolverConfiguration}"
+            - name: CircuitBreaker
+              args:
+                name: circuitBreakerInstance
+                fallbackUri: forward:/fallback/auth
 
 # SPRINGDOC CONFIGURATION (Swagger UI for All Services via API Gateway)
 springdoc:
@@ -114,13 +166,11 @@ springdoc:
       - name: Auth Service
         url: /auth/v3/api-docs
 
-
   api-docs:
     enabled: true
     path: /v3/api-docs
     swagger-ui:
       enabled: true
-
 
 logging:
   level:
@@ -134,3 +184,7 @@ eureka:
   client:
     initialInstanceInfoReplicationIntervalSeconds: 20
     registryFetchIntervalSeconds: 5  # Fetch updates every 5 seconds
+redis:
+  host: redis
+  port: 6379
+

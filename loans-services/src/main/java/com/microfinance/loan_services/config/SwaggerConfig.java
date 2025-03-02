@@ -1,4 +1,4 @@
-package com.microfinance.auth_services.config;
+package com.microfinance.loan_services.config;
 
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;

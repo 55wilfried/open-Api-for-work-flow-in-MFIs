@@ -1,9 +1,10 @@
 package com.microfinance.auth_services.service;
 
-import com.microfinance.auth_services.kafka.FailedRequestProducer;
 import com.microfinance.auth_services.models.*;
 import com.microfinance.auth_services.repository.AuthentificationRepository;
 import com.microfinance.auth_services.repository.AuthentificationRepositoryUSer;
+import com.microfinance.auth_services.kafka.FailedRequestProducer;
+
 import com.microfinance.auth_services.token.TokenService;
 import com.microfinance.auth_services.utils.APIResponse;
 import com.microfinance.auth_services.utils.CrudOperationException;
@@ -15,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -74,11 +74,11 @@ public class AuthService {
     }
 
     public APIResponse loginCollector(LoginRequest loginRequest) {
-        LOGGER.info("Starting login process for collector: {}", loginRequest.getUserName());
+        LOGGER.warn("Starting login process for collector: {}", loginRequest.getUserName());
 
         APIResponse response = new APIResponse();
         try {
-            LOGGER.info("Fetching collector from database for username: {}", loginRequest.getUserName());
+            LOGGER.warn("Fetching collector from database for username: {}", loginRequest.getUserName());
             Collecteur collecteur = authentificationRepository.findCollectorByNum(loginRequest.getUserName());
 
             if (collecteur == null) {
@@ -101,18 +101,18 @@ public class AuthService {
                 throw new CrudOperationException("User has been blocked", Trame.ResponseCode.CONSTRAINT_ERROR);
             }
 
-            LOGGER.info("Generating authentication token for collector: {}", loginRequest.getUserName());
+            LOGGER.warn("Generating authentication token for collector: {}", loginRequest.getUserName());
 
 
             collecteur.setKey(token);
 
-            LOGGER.info("Collector login successful: {}", loginRequest.getUserName());
+            LOGGER.warn("Collector login successful: {}", loginRequest.getUserName());
             response.setData(collecteur);
             response.setStatus(Trame.ResponseCode.SUCCESS);
             response.setMessage("Login successful");
 
         } catch (CrudOperationException e) {
-            LOGGER.error("Login failed for Unexpected error collector {}: {}", loginRequest.getUserName(), e.getMessage());
+            LOGGER.warn("Login failed for Unexpected error collector {}: {}", loginRequest.getUserName(), e.getMessage());
             response.setStatus(e.getResponse().getStatus());
             response.setMessage(e.getResponse().getMessage());
             logFailure("logincollector", Arrays.asList(loginRequest.getUserName(),loginRequest.getPassword(), String.valueOf(1)), e);
@@ -164,6 +164,51 @@ public class AuthService {
             response.setMessage(e.getResponse().getMessage());
             logFailure("loginuser", Arrays.asList(loginRequest.getUserName(),loginRequest.getPassword(), String.valueOf(2)), e);
 
+        }
+
+        return response;
+    }
+
+
+
+    public APIResponse loginCollector1(String username, String password) {
+        LOGGER.info("Starting login process for collector: {}", username);
+        APIResponse response = new APIResponse();
+
+        try {
+            LOGGER.info("Fetching collector from database for username: {}", username);
+            Collecteur collecteur = authentificationRepository.findCollectorByNum(username);
+
+            if (collecteur == null) {
+                LOGGER.warn("Collector not found: {}", username);
+                throw new CrudOperationException("Collector not found", Trame.ResponseCode.NOT_FOUND);
+            }
+
+            LOGGER.info("Validating password for collector: {}", username);
+            String hashedPassword = Encryption.hashPwd(password).toUpperCase();
+            LOGGER.debug("Hashed password: {}", hashedPassword);
+            LOGGER.debug("Stored password: {}", collecteur.getPassword());
+
+            if (!hashedPassword.equals(collecteur.getPassword())) {
+                LOGGER.warn("Invalid password for collector: {}", username);
+                throw new CrudOperationException("Invalid credentials, please try again", Trame.ResponseCode.ACCESS_DENIED);
+            }
+
+            if (collecteur.getIsLocked() == 1) {
+                LOGGER.warn("Collector account is locked: {}", username);
+                throw new CrudOperationException("User has been blocked", Trame.ResponseCode.CONSTRAINT_ERROR);
+            }
+
+            LOGGER.info("Collector login successful for user: {}", username);
+            response.setData(collecteur);
+            response.setStatus(Trame.ResponseCode.SUCCESS);
+            response.setMessage("Login successful");
+
+        } catch (CrudOperationException e) {
+            logFailure("logincollector", Arrays.asList(username, password), e);
+            LOGGER.error("Login failed for collector {}: {}", username, e.getMessage());
+            response.setStatus(e.getResponse().getStatus());
+            response.setMessage(e.getResponse().getMessage());
         }
 
         return response;

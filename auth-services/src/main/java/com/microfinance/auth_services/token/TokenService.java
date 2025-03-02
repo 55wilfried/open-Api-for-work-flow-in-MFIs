@@ -32,12 +32,16 @@ public class TokenService {
 
         try {
              response = keycloakTokenClient.generateToken(request.getUserName(), request.getPassword());
-            logger.info("Token received successfully for user: {}", request.getUserName());
+            logger.info("Reqest from online token back  successfully for user: {}", request.getUserName());
+            logger.info("Reqest from online token back  600000: {}", response.getStatusCode());
+            logger.info("Reqest from online token back  6000007777: {}", response.getMessage());
+
             if(response.getStatusCode() == "200"){
                 return response;
             }else if(response.getStatusCode() == "401"){
                 return response;
             }else{
+                logger.info("Reqest from online token back  waiting 503: {}", response.getStatusCode());
                 return  response = fallbackGenerateToken1(request);
             }
         } catch (HttpClientErrorException e) {
@@ -49,12 +53,14 @@ public class TokenService {
             logger.info("Token throw exception all{}", request.getUserName());
             throw new RuntimeException("Triggering fallback due to unexpected response: " + e.getStatusCode());
         } catch (HttpServerErrorException e) {
+            logger.info("Token throw Triggering fallbacK 303 all{}", request.getUserName());
             // Trigger fallback for 5xx errors
             return  response = fallbackGenerateToken1(request);
 
             //  throw new RuntimeException("Triggering fallback due to server error: " + e.getStatusCode());
 
         } catch (RestClientException e) {
+            logger.info("Token throw Triggering fallbacK all{}", request.getUserName());
             // Any other network-related error triggers fallback
            // throw new RuntimeException("Triggering fallback due to connection failure.");
             return  response = fallbackGenerateToken1(request);
@@ -66,7 +72,9 @@ public class TokenService {
 
     public LoginResponse fallbackGenerateToken1(LoginRequest request) {
         logger.warn("Fallback invoked for user {} due to exception: {}", request.getUserName());
+        logger.warn("WAIT LOCAL TOKEN due to exception: {}", request.getUserName());
         TokenResponse tokenResponse = localTokenService.generateToken(request.getUserName(), request.getPassword());
+        logger.warn("WAIT LOCAL TOKEN due to exception: {}", request.getUserName());
         return new LoginResponse(
                 tokenResponse.getAccess_token(),
                 tokenResponse.getToken_type(),
@@ -76,7 +84,7 @@ public class TokenService {
         );
     }
 
-    public LoginResponse fallbackGenerateToken(LoginRequest request, Throwable e) {
+    /*public LoginResponse fallbackGenerateToken(LoginRequest request, Throwable e) {
         logger.warn("Fallback invoked for user {} due to exception: {}", request.getUserName(), e.getMessage());
         TokenResponse tokenResponse = localTokenService.generateToken(request.getUserName(), request.getPassword());
         return new LoginResponse(
@@ -86,5 +94,5 @@ public class TokenService {
                 String.valueOf(tokenResponse.getStatus()),
                 tokenResponse.getMessage()
         );
-    }
+    }*/
 }

@@ -39,8 +39,11 @@ public class Trame {
                 DUPLICATE_ENTRY = 401,
                 BAD_REQUEST = 402,
                 CONSTRAINT_ERROR = 403,
-
+                PASS_REQUEST_LIMITS = 505,
         CHANGE_PASSWORD = 4232;
+
+
+
     }
 
     public static <T> T getRequestData(String str, Class<T> t) {

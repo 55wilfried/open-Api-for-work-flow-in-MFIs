@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.microfinance.auth_services.utils;
+package com.microfinance.loan_services.utils;
 
 
 

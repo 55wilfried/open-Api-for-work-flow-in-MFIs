@@ -27,4 +27,44 @@ public class RequestTransactionByParams {
 
     @Schema(description = "The client's identifier for filtering transactions.", example = "CLI12345", required = false)
     private String numcli;
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return EndDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        EndDate = endDate;
+    }
+
+    public String getNumCol() {
+        return numCol;
+    }
+
+    public void setNumCol(String numCol) {
+        this.numCol = numCol;
+    }
+
+    public String getCodage() {
+        return codage;
+    }
+
+    public void setCodage(String codage) {
+        this.codage = codage;
+    }
+
+    public String getNumcli() {
+        return numcli;
+    }
+
+    public void setNumcli(String numcli) {
+        this.numcli = numcli;
+    }
 }

@@ -11,6 +11,7 @@ services:
     networks:
       - mfi-net
 
+
   # Auth Service
   auth-services:
     build:
@@ -128,7 +129,13 @@ services:
     networks:
       - mfi-net
 
-
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - mfi-net
 
 networks:
   mfi-net:

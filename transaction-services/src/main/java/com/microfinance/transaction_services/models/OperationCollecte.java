@@ -80,5 +80,157 @@ public class OperationCollecte {
     @Schema(description = "Series information related to the operation.", example = "SER123")
     private String series;
 
+    public String getNum() {
+        return num;
+    }
+
+    public void setNum(String num) {
+        this.num = num;
+    }
+
+    public Date getDateOp() {
+        return dateOp;
+    }
+
+    public void setDateOp(Date dateOp) {
+        this.dateOp = dateOp;
+    }
+
+    public String getNumcli() {
+        return numcli;
+    }
+
+    public void setNumcli(String numcli) {
+        this.numcli = numcli;
+    }
+
+    public String getNumCol() {
+        return numCol;
+    }
+
+    public void setNumCol(String numCol) {
+        this.numCol = numCol;
+    }
+
+    public String getSenseOp() {
+        return senseOp;
+    }
+
+    public void setSenseOp(String senseOp) {
+        this.senseOp = senseOp;
+    }
+
+    public Double getMontant() {
+        return montant;
+    }
+
+    public void setMontant(Double montant) {
+        this.montant = montant;
+    }
+
+    public String getLibelle() {
+        return libelle;
+    }
+
+    public void setLibelle(String libelle) {
+        this.libelle = libelle;
+    }
+
+    public String getCodage() {
+        return codage;
+    }
+
+    public void setCodage(String codage) {
+        this.codage = codage;
+    }
+
+    public String getNomcli() {
+        return nomcli;
+    }
+
+    public void setNomcli(String nomcli) {
+        this.nomcli = nomcli;
+    }
+
+    public String getNomcol() {
+        return nomcol;
+    }
+
+    public void setNomcol(String nomcol) {
+        this.nomcol = nomcol;
+    }
+
+    public String getCdedat() {
+        return cdedat;
+    }
+
+    public void setCdedat(String cdedat) {
+        this.cdedat = cdedat;
+    }
+
+    public Date getSysDate() {
+        return sysDate;
+    }
+
+    public void setSysDate(Date sysDate) {
+        this.sysDate = sysDate;
+    }
+
+    public Double getMontantMen() {
+        return montantMen;
+    }
+
+    public void setMontantMen(Double montantMen) {
+        this.montantMen = montantMen;
+    }
+
+    public String getMoisBouclage() {
+        return moisBouclage;
+    }
+
+    public void setMoisBouclage(String moisBouclage) {
+        this.moisBouclage = moisBouclage;
+    }
+
+    public Integer getIsOpDistant() {
+        return isOpDistant;
+    }
+
+    public void setIsOpDistant(Integer isOpDistant) {
+        this.isOpDistant = isOpDistant;
+    }
+
+    public Integer getuId() {
+        return uId;
+    }
+
+    public void setuId(Integer uId) {
+        this.uId = uId;
+    }
+
+    public String getNumChq() {
+        return numChq;
+    }
+
+    public void setNumChq(String numChq) {
+        this.numChq = numChq;
+    }
+
+    public String getwType() {
+        return wType;
+    }
+
+    public void setwType(String wType) {
+        this.wType = wType;
+    }
+
+    public String getSeries() {
+        return series;
+    }
+
+    public void setSeries(String series) {
+        this.series = series;
+    }
+
     // Getters and setters (omitted for brevity)
 }

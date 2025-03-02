@@ -1,15 +1,13 @@
-package com.microfinance.auth_services.kafka;
+package com.microfinance.loan_services.kafka;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.microfinance.auth_services.models.FailedRequest;
+import com.microfinance.loan_services.models.FailedRequest;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class RequestRetryService {

@@ -32,4 +32,51 @@ public class RequestTransactionByParams {
     @Schema(description = "Client number or identifier.", example = "CLI456")
     private String numcli;
 
+    public String getNum() {
+        return num;
+    }
+
+    public void setNum(String num) {
+        this.num = num;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getNumCol() {
+        return numCol;
+    }
+
+    public void setNumCol(String numCol) {
+        this.numCol = numCol;
+    }
+
+    public String getCodage() {
+        return codage;
+    }
+
+    public void setCodage(String codage) {
+        this.codage = codage;
+    }
+
+    public String getNumcli() {
+        return numcli;
+    }
+
+    public void setNumcli(String numcli) {
+        this.numcli = numcli;
+    }
 }

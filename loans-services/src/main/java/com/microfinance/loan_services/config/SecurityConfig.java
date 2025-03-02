@@ -1,4 +1,4 @@
-package com.microfinance.auth_services.config;
+package com.microfinance.loan_services.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
