@@ -30,7 +30,9 @@ public class AuthenticationFilter implements WebFilter {
         ServerHttpRequest request = exchange.getRequest();
         logger.info("Incoming request: {} {}", request.getMethod(), request.getURI());
 
-        if (request.getURI().getPath().startsWith("/auth/") || request.getURI().getPath().startsWith("/client/getToken") ||
+        if (request.getURI().getPath().startsWith("/auth/") ||
+                request.getURI().getPath().startsWith("/actuator") ||
+                request.getURI().getPath().startsWith("/client/getToken") ||
                 request.getURI().getPath().startsWith("/users/getToken") ||
                 request.getURI().getPath().startsWith("/swagger-ui.html") ||
                 request.getURI().getPath().startsWith("/v3/api-docs/") ||

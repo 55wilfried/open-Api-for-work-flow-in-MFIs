@@ -28,7 +28,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll() // Publicly accessible login endpoints
+                        .requestMatchers("/auth/**","/actuator/**" ).permitAll() // Publicly accessible login endpoints
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**")
                         .access((authentication, context) -> {
                             String forwardedFromGateway = context.getRequest().getHeader("X-Forwarded-For");

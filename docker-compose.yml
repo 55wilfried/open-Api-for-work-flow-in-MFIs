@@ -137,6 +137,32 @@ services:
     networks:
       - mfi-net
 
+  # Prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    hostname: prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - mfi-net
+    ports:
+      - "9090:9090"
+    depends_on:
+      - kafka
+      - api-gateway
+      - users-services
+      - auth-services
+      - client-services
+      - transaction-services
+      - reporting-services
+      - loans-services
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+
+
 networks:
   mfi-net:
     external: true
